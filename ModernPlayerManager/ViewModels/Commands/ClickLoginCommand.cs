@@ -17,7 +17,7 @@ namespace ModernPlayerManager.ViewModels.Commands
         }
 
         public bool CanExecute(object parameter) {
-            return true;
+            return LoginViewModel.Username?.Length > 0 && LoginViewModel.Password?.Length > 0;
         }
 
         public void Execute(object parameter) {
@@ -25,5 +25,10 @@ namespace ModernPlayerManager.ViewModels.Commands
         }
 
         public event EventHandler CanExecuteChanged;
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

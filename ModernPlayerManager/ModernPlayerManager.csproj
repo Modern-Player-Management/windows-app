@@ -125,12 +125,22 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MpmApi.cs" />
+    <Compile Include="Services\API\AuthenticatedHttpClientHandler.cs" />
+    <Compile Include="Services\API\ILoginApi.cs" />
+    <Compile Include="Services\DTO\RegisterDTO.cs" />
+    <Compile Include="Services\DTO\LoginDTO.cs" />
+    <Compile Include="Services\DTO\LoggedUserDTO.cs" />
     <Compile Include="ViewModels\Commands\ClickLoginCommand.cs" />
+    <Compile Include="ViewModels\Commands\ClickRegisterCommand.cs" />
+    <Compile Include="ViewModels\Commands\NavigateToRegisterCommand.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -161,6 +171,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\RegisterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -168,6 +182,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.4.2</Version>
+    </PackageReference>
+    <PackageReference Include="refit">
+      <Version>5.1.67</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

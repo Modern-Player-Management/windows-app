@@ -11,4 +11,5 @@ App.xbf
 MainPage.xbf
 ModernPlayerManager.xr.xml
 Pages\LoginPage.xbf
+Pages\RegisterPage.xbf
 Properties\Default.rd.xml
