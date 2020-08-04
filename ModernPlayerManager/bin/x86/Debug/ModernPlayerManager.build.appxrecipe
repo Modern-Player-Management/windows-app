@@ -91,6 +91,9 @@
     <AppxPackagedFile Include="C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\Dialogs\CreateTeamDialog.xbf">
+      <PackagePath>Dialogs\CreateTeamDialog.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>

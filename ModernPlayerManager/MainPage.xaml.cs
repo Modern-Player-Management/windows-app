@@ -12,19 +12,32 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ModernPlayerManager.ViewModels;
 
 // Pour plus d'informations sur le modèle d'élément Page vierge, consultez la page https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace ModernPlayerManager
 {
+
     /// <summary>
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        public MainViewModel ViewModel { get; set; } = new MainViewModel();
+
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            ViewModel.FetchTeams();
+        }
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e) {
+           ViewModel.AddTeam();
         }
     }
 }

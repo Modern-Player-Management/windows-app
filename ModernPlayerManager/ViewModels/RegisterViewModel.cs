@@ -87,13 +87,13 @@ namespace ModernPlayerManager.ViewModels
             catch (Exception e)
             {
                 Loading = false;
-                ContentDialog dialog = new ContentDialog
+                var dialog = new ContentDialog
                 {
                     Title = "Login Error",
                     Content = e.Message,
                     CloseButtonText = "Ok"
                 };
-                ContentDialogResult result = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync();
             }
         }
     }

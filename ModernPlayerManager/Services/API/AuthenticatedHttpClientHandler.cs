@@ -13,12 +13,7 @@ namespace ModernPlayerManager.Services.API
 
     public class AuthenticatedHttpClientHandler : HttpClientHandler
     {
-        public static AuthenticatedHttpClientHandler AuthInterceptor { get; set; }
-        static AuthenticatedHttpClientHandler () {
-            AuthInterceptor = new AuthenticatedHttpClientHandler();
-        }
-
-        public string Token { get; set; }
+        public static string Token { get; set; }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {

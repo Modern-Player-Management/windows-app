@@ -6,9 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:dataViewModels="using:ModernPlayerManager.ViewModels.DataViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="TeamTemplate" x:DataType="dataViewModels:TeamViewModel">
+            <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}" Tag="{x:Bind Id, Mode=OneWay}" />
+        </DataTemplate>
+    </Page.Resources>
 
-    </Grid>
+    <muxc:NavigationView MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
+        <muxc:NavigationView.PaneFooter>
+            <muxc:NavigationViewItem Tapped="UIElement_OnTapped" Icon="Add" Content="Add Team" />
+        </muxc:NavigationView.PaneFooter>
+        <Frame x:Name="contentFrame"/>
+    </muxc:NavigationView>
 </Page>

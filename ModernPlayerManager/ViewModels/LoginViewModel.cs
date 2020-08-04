@@ -74,6 +74,7 @@ namespace ModernPlayerManager.ViewModels
 
             try {
                 var loggedUser = await api.Login(dto);
+                AuthenticatedHttpClientHandler.Token = loggedUser.Token;
                 (Window.Current.Content as Frame)?.Navigate(typeof(MainPage));
             } catch (Exception e) {
                 Loading = false;

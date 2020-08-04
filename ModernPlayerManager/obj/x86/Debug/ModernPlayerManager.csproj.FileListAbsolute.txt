@@ -18,7 +18,6 @@ C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\System.
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\System.Text.Encodings.Web.dll
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\System.Text.Json.dll
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\Microsoft.UI.Xaml.Markup.winmd
-C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\ModernPlayerManager.csprojAssemblyReference.cache
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\App.g.i.cs
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\App.g.cs
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\MainPage.g.i.cs
@@ -64,3 +63,9 @@ C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\resourc
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\resources.en-us.resfiles.intermediate
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\ProjectArchitectures.txt
 C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\.winmd_cache\$Microsoft.UI.Xaml.Markup.winmd_636885238160000000.json
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\ModernPlayerManager.csprojAssemblyReference.cache
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\bin\x86\Debug\Dialogs\CreateTeamDialog.xbf
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\Dialogs\CreateTeamDialog.g.i.cs
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\Dialogs\CreateTeamDialog.g.cs
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\Dialogs\CreateTeamDialog.xaml
+C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\obj\x86\Debug\Dialogs\CreateTeamDialog.xbf
