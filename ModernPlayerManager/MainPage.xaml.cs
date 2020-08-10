@@ -12,7 +12,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ModernPlayerManager.Pages;
 using ModernPlayerManager.ViewModels;
+using ModernPlayerManager.ViewModels.DataViewModels;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 // Pour plus d'informations sur le modèle d'élément Page vierge, consultez la page https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,7 +28,6 @@ namespace ModernPlayerManager
     /// </summary>
     public sealed partial class MainPage : Page
     {
-
         public MainViewModel ViewModel { get; set; } = new MainViewModel();
 
         public MainPage()
@@ -38,6 +41,11 @@ namespace ModernPlayerManager
 
         private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e) {
            ViewModel.AddTeam();
+        }
+
+        private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
+            var selectedTeam = args.SelectedItem as TeamViewModel;
+            contentFrame.Navigate(typeof(TeamPage), selectedTeam.Id);
         }
     }
 }

@@ -16,7 +16,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <muxc:NavigationView MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
+    <muxc:NavigationView SelectionChanged="NavigationView_OnSelectionChanged" MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
         <muxc:NavigationView.PaneFooter>
             <muxc:NavigationViewItem Tapped="UIElement_OnTapped" Icon="Add" Content="Add Team" />
         </muxc:NavigationView.PaneFooter>

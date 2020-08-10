@@ -1,0 +1,49 @@
+﻿<Page
+    x:Class="ModernPlayerManager.Pages.TeamPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernPlayerManager.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <Page.TopAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Icon="Add" Label="Add Player" />
+                <AppBarSeparator />
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Icon="Edit" Label="Edit this Team" />
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Icon="Delete" Label="Delete this Team" />
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.TopAppBar>
+    <StackPanel Padding="32">
+        <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
+        <StackPanel Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock  FontSize="48" Text="{x:Bind ViewModel.Team.Name, Mode=OneWay}"></TextBlock>
+                    
+                    <TextBlock  Text="{x:Bind ViewModel.Team.Description, Mode=OneWay}"></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontStyle="Italic" Text="Manager : "></TextBlock>
+
+                    </StackPanel>
+                    
+                </StackPanel>
+                <Image Grid.Column="1" HorizontalAlignment="Right" MaxHeight="128" Source="{x:Bind ViewModel.TeamImage, Mode=OneWay}" Stretch="Uniform"></Image>
+
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</Page>

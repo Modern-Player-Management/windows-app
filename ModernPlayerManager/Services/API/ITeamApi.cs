@@ -15,6 +15,9 @@ namespace ModernPlayerManager.Services.API
         [Get("/api/Teams")]
         Task<List<Team>> GetTeams();
 
+        [Get("/api/Teams/{id}")]
+        Task<Team> GetTeam([AliasAs("id")] string teamId);
+
         [Post("/api/Teams")]
         Task<Team> CreateTeam([Body] Team team);
     }
