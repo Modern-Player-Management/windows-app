@@ -14,12 +14,12 @@
         <CommandBar>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
-                              Icon="Add" Label="Add Player" />
+                              Icon="Add" Label="Add Player" Command="{x:Bind ViewModel.OpenAddPlayerToTeamDialog}"/>
                 <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Edit" Label="Edit this Team" />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
-                              Icon="Delete" Label="Delete this Team" />
+                              Icon="Delete" Command="{x:Bind ViewModel.DeleteTeamCommand}" Label="Delete this Team" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.TopAppBar>

@@ -20,5 +20,11 @@ namespace ModernPlayerManager.Services.API
 
         [Post("/api/Teams")]
         Task<Team> CreateTeam([Body] Team team);
+
+        [Delete("/api/Teams/{id}")]
+        Task DeleteTeam([AliasAs("id")] string teamId);
+
+        [Post("/api/Teams/{teamId}/player/{playerId}")]
+        Task AddPlayerToTeam([AliasAs("teamId")] string teamId, [AliasAs("playerId")] string playerId);
     }
 }

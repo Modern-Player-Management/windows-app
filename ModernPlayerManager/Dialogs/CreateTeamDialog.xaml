@@ -13,9 +13,9 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <StackPanel>
-        <TextBox Text="{x:Bind ViewModel.Name, Mode=TwoWay}" Margin="0,16,0,0" Width="256"
+        <TextBox Text="{x:Bind Team.Name, Mode=TwoWay}" Margin="0,16,0,0" Width="256"
                  Header="Enter the team name:" PlaceholderText="Name" />
-        <TextBox Text="{x:Bind ViewModel.Description, Mode=TwoWay}" Margin="0,16,0,0" Width="256"
+        <TextBox Text="{x:Bind Team.Description, Mode=TwoWay}" Margin="0,16,0,0" Width="256"
                  Header="Enter the team description:" PlaceholderText="Description" />
     </StackPanel>
 </ContentDialog>

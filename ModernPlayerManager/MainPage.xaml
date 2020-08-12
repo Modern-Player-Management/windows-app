@@ -7,11 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:dataViewModels="using:ModernPlayerManager.ViewModels.DataViewModels"
+    xmlns:models="using:ModernPlayerManager.Models"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <DataTemplate x:Key="TeamTemplate" x:DataType="dataViewModels:TeamViewModel">
+        <DataTemplate x:Key="TeamTemplate" x:DataType="models:Team">
             <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}" Tag="{x:Bind Id, Mode=OneWay}" />
         </DataTemplate>
     </Page.Resources>

@@ -1,0 +1,34 @@
+﻿<ContentDialog
+    x:Class="ModernPlayerManager.Dialogs.AddPlayerToTeamDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernPlayerManager.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:ModernPlayerManager.Models"
+    mc:Ignorable="d"
+    Title="Add a player to the Team"
+    PrimaryButtonText="Add Player"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="UsernameTemplate" x:DataType="models:User">
+            <TextBlock Text="{x:Bind Username, Mode=OneWay}" />
+        </DataTemplate>
+    </ContentDialog.Resources>
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{x:Bind ViewModel.Search, Mode=TwoWay}" />
+            <Button Command="{x:Bind ViewModel.SearchUserCommand}" HorizontalAlignment="Right" Style="{StaticResource AccentButtonStyle}" Content="Search" Grid.Column="1"></Button>
+        </Grid>
+        <ListView MinHeight="300" MaxHeight="300" ItemTemplate="{StaticResource UsernameTemplate}" ItemsSource="{x:Bind ViewModel.SearchResult, Mode=OneWay}" SelectionMode="Single"></ListView>
+    </StackPanel>
+</ContentDialog>

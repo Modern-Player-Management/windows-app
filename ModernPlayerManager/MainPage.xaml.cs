@@ -12,9 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
 using ModernPlayerManager.ViewModels;
-using ModernPlayerManager.ViewModels.DataViewModels;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
@@ -22,16 +22,14 @@ using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.Navig
 
 namespace ModernPlayerManager
 {
-
     /// <summary>
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainViewModel ViewModel { get; set; } = new MainViewModel();
+        public MainViewModel ViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
 
-        public MainPage()
-        {
+        public MainPage() {
             this.InitializeComponent();
         }
 
@@ -40,12 +38,18 @@ namespace ModernPlayerManager
         }
 
         private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e) {
-           ViewModel.AddTeam();
+            ViewModel.AddTeam();
         }
 
-        private void NavigationView_OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
-            var selectedTeam = args.SelectedItem as TeamViewModel;
-            contentFrame.Navigate(typeof(TeamPage), selectedTeam.Id);
+        private void NavigationView_OnSelectionChanged(NavigationView sender,
+            NavigationViewSelectionChangedEventArgs args) {
+            var selectedTeam = args.SelectedItem as Team;
+            if(selectedTeam != null) {
+                contentFrame.Navigate(typeof(TeamPage), selectedTeam.Id);
+            }
+            else {
+                contentFrame.Navigate(typeof(TeamWelcomePage));
+            }
         }
     }
 }

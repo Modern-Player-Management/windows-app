@@ -3,20 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModernPlayerManager.ViewModels;
 
 namespace ModernPlayerManager.Models
 {
-    public class Team
+    public class Team : NotificationBase
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public User Manager { get; set; }
-        public bool IsCurrentUserManager { get; set; }
-        public List<User> pPlayers { get; set; }
-        public DateTime Created { get; set; }
-        public List<Event> Events { get; set; }
-        public List<Game> Games { get; set; }
+        private string id;
+        private string name;
+        private string description;
+        private string image;
+        private User manager;
+        private bool isCurrentUserManager;
+        private List<User> players;
+        private DateTime created;
+        private List<Event> events;
+        private List<Game> games;
+
+
+        public string Id {
+            get => id;
+            set {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name {
+            get => name;
+            set {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Description {
+            get => description;
+            set {
+                description = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Image {
+            get => image;
+            set {
+                image = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsCurrentUserManager {
+            get => isCurrentUserManager;
+            set {
+                isCurrentUserManager = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

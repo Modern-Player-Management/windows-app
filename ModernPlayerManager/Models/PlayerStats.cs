@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModernPlayerManager.ViewModels;
 
 namespace ModernPlayerManager.Models
 {
-    public class PlayersStat
+    public class PlayersStat : NotificationBase
     {
-        public string Player { get; set; }
-        public int Goals { get; set; }
-        public int Saves { get; set; }
-        public int Shots { get; set; }
-        public int Assists { get; set; }
-        public int Score { get; set; }
-        public string GameId { get; set; }
-        public int GoalShots { get; set; }
-        public string Id { get; set; }
-        public DateTime Created { get; set; }
+        private string player { get; set; }
+        private int goals { get; set; }
+        private int saves { get; set; }
+        private int shots { get; set; }
+        private int assists { get; set; }
+        private int score { get; set; }
+        private string gameId { get; set; }
+        private int goalShots { get; set; }
+        private string id { get; set; }
+        private DateTime created { get; set; }
     }
 }

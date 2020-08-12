@@ -5,18 +5,23 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using ModernPlayerManager.Dialogs;
+using ModernPlayerManager.Models;
 using ModernPlayerManager.Services.API;
-using ModernPlayerManager.ViewModels.DataViewModels;
+using ModernPlayerManager.ViewModels.Commands;
 using Refit;
 
 namespace ModernPlayerManager.ViewModels
 {
-    public class TeamPageViewModel : NotificationBase
+    public class TeamViewModel : NotificationBase
     {
-        private readonly string _teamId;
+        public MainViewModel MainViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
+
+        private readonly string teamId;
 
         public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
@@ -25,50 +30,57 @@ namespace ModernPlayerManager.ViewModels
         public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
 
-        private TeamViewModel _team;
-        private bool _loading = true;
+        public ICommand DeleteTeamCommand { get; private set; }
+        public ICommand OpenAddPlayerToTeamDialog { get; private set; }
 
-        private BitmapImage _image;
+        private Team team;
+        private bool loading = true;
+
+        private BitmapImage image;
 
         public BitmapImage TeamImage
         {
-            get => _image;
+            get => image;
             set
             {
-                _image = value;
+                image = value;
                 OnPropertyChanged();
             }
         }
 
-        public TeamViewModel Team
+        public Team Team
         {
-            get => _team;
+            get => team;
             set
             {
-                _team = value;
+                team = value;
                 OnPropertyChanged();
             }
         }
 
-        public TeamPageViewModel(string teamId) {
-            _teamId = teamId;
+        public TeamViewModel(string teamId) {
+            this.teamId = teamId;
+            this.OpenAddPlayerToTeamDialog = new OpenAddPlayerToTeamDialogCommand(this);
+            this.DeleteTeamCommand = new DeleteTeamCommand(this);
         }
 
         public bool Loading {
-            get => _loading;
+            get => loading;
             set {
-                _loading = value;
+                loading = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NotLoading));
             }
         }
 
 
-        public bool NotLoading => !_loading;
+        public bool NotLoading => !loading;
+
+
 
         public async Task FetchTeam() {
             try {
-                Team = new TeamViewModel(await TeamApi.GetTeam(_teamId));
+                Team = await TeamApi.GetTeam(teamId);
                 Loading = false;
 
                 Guid x;
@@ -80,6 +92,37 @@ namespace ModernPlayerManager.ViewModels
             }
             catch (Exception e) {
                 Loading = false;
+                var dialog = new ContentDialog
+                {
+                    Title = "Loading Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await dialog.ShowAsync();
+            }
+        }
+
+        public async Task DeleteTeam() {
+            var deleteFileDialog = new ContentDialog
+            {
+                Title = "Delete this Team permanently?",
+                Content = "If you delete this Team, you won't be able to recover it. Do you want to delete it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            var result = await deleteFileDialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary) {
+                return;
+            }
+
+            try
+            {
+                await TeamApi.DeleteTeam(Team.Id);
+                MainViewModel.Teams.Remove(MainViewModel.Teams.First(t => t.Id == Team.Id));
+            }
+            catch(Exception e) {
                 var dialog = new ContentDialog
                 {
                     Title = "Loading Error",
@@ -109,6 +152,11 @@ namespace ModernPlayerManager.ViewModels
             }
 
             return bitmapImage;
+        }
+
+        public async void AddPlayerToTeam() {
+            var dialog = new AddPlayerToTeamDialog();
+            var buttonClicked = await dialog.ShowAsync();
         }
     }
 }

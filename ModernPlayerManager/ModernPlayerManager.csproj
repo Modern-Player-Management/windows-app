@@ -119,6 +119,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AddPlayerToTeamDialog.xaml.cs">
+      <DependentUpon>AddPlayerToTeamDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\CreateTeamDialog.xaml.cs">
       <DependentUpon>CreateTeamDialog.xaml</DependentUpon>
     </Compile>
@@ -128,7 +131,7 @@
     <Compile Include="Models\Discrepancy.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\Manager.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\Participation.cs" />
     <Compile Include="Models\PlayerStats.cs" />
     <Compile Include="Models\Team.cs" />
@@ -141,24 +144,32 @@
     <Compile Include="Pages\TeamPage.xaml.cs">
       <DependentUpon>TeamPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TeamWelcomePage.xaml.cs">
+      <DependentUpon>TeamWelcomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\API\AuthenticatedHttpClientHandler.cs" />
     <Compile Include="Services\API\IFileApi.cs" />
     <Compile Include="Services\API\ILoginApi.cs" />
     <Compile Include="Services\API\ITeamApi.cs" />
+    <Compile Include="Services\API\IUserApi.cs" />
     <Compile Include="Services\DTO\RegisterDTO.cs" />
     <Compile Include="Services\DTO\LoginDTO.cs" />
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
+    <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
     <Compile Include="ViewModels\Commands\ClickLoginCommand.cs" />
     <Compile Include="ViewModels\Commands\ClickRegisterCommand.cs" />
+    <Compile Include="ViewModels\Commands\DeleteTeamCommand.cs" />
     <Compile Include="ViewModels\Commands\NavigateToRegisterCommand.cs" />
-    <Compile Include="ViewModels\DataViewModels\TeamViewModel.cs" />
+    <Compile Include="ViewModels\Commands\OpenAddPlayerToTeamDialogCommand.cs" />
+    <Compile Include="ViewModels\Commands\SearchUserCommand.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\TeamPageViewModel.cs" />
+    <Compile Include="ViewModels\TeamViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelsLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -181,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\AddPlayerToTeamDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CreateTeamDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TeamPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TeamWelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
