@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Streams;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Services.API;
@@ -58,8 +60,11 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public TeamViewModel(string teamId) {
+        public InAppNotification Notification { get; private set; }
+
+        public TeamViewModel(string teamId, InAppNotification notification) {
             this.teamId = teamId;
+            Notification = notification;
             this.OpenAddPlayerToTeamDialog = new OpenAddPlayerToTeamDialogCommand(this);
             this.DeleteTeamCommand = new DeleteTeamCommand(this);
         }
@@ -155,8 +160,9 @@ namespace ModernPlayerManager.ViewModels
         }
 
         public async void AddPlayerToTeam() {
-            var dialog = new AddPlayerToTeamDialog();
+            var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
+            Notification.Show("Player added to the team",4000);
         }
     }
 }

@@ -6,12 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ModernPlayerManager.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Title="Add a player to the Team"
     PrimaryButtonText="Add Player"
     SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    PrimaryButtonCommand="{x:Bind ViewModel.AddUserCommand}">
 
 
     <ContentDialog.Resources>
@@ -21,6 +21,7 @@
     </ContentDialog.Resources>
 
     <StackPanel>
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="7*" />
@@ -29,6 +30,6 @@
             <TextBox Text="{x:Bind ViewModel.Search, Mode=TwoWay}" />
             <Button Command="{x:Bind ViewModel.SearchUserCommand}" HorizontalAlignment="Right" Style="{StaticResource AccentButtonStyle}" Content="Search" Grid.Column="1"></Button>
         </Grid>
-        <ListView MinHeight="300" MaxHeight="300" ItemTemplate="{StaticResource UsernameTemplate}" ItemsSource="{x:Bind ViewModel.SearchResult, Mode=OneWay}" SelectionMode="Single"></ListView>
+        <ListView SelectedItem="{x:Bind ViewModel.SelectedUser, Mode=TwoWay}" MinHeight="300" MaxHeight="300" ItemTemplate="{StaticResource UsernameTemplate}" ItemsSource="{x:Bind ViewModel.SearchResult, Mode=OneWay}" SelectionMode="Single"></ListView>
     </StackPanel>
 </ContentDialog>

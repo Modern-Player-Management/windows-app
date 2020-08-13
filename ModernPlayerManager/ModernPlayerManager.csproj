@@ -158,6 +158,7 @@
     <Compile Include="Services\DTO\LoginDTO.cs" />
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
     <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
+    <Compile Include="ViewModels\Commands\AddPlayerToTeamCommand.cs" />
     <Compile Include="ViewModels\Commands\ClickLoginCommand.cs" />
     <Compile Include="ViewModels\Commands\ClickRegisterCommand.cs" />
     <Compile Include="ViewModels\Commands\DeleteTeamCommand.cs" />
@@ -225,8 +226,17 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>6.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>6.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>6.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.2</Version>
+      <Version>2.4.3</Version>
     </PackageReference>
     <PackageReference Include="refit">
       <Version>5.1.67</Version>

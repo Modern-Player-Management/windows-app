@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ModernPlayerManager.Models;
 using ModernPlayerManager.ViewModels;
 
 // Pour plus d'informations sur le modèle d'élément Boîte de dialogue de contenu, consultez la page https://go.microsoft.com/fwlink/?LinkId=234238
@@ -20,18 +21,11 @@ namespace ModernPlayerManager.Dialogs
 {
     public sealed partial class AddPlayerToTeamDialog : ContentDialog
     {
-        public AddPlayerToTeamViewModel ViewModel { get; set; } = new AddPlayerToTeamViewModel();
-        public AddPlayerToTeamDialog()
+        public AddPlayerToTeamViewModel ViewModel { get; set; }
+        public AddPlayerToTeamDialog(Team team)
         {
             this.InitializeComponent();
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+            ViewModel = new AddPlayerToTeamViewModel(team);
         }
     }
 }

@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 
     <Page.TopAppBar>
         <CommandBar>
@@ -24,6 +24,8 @@
         </CommandBar>
     </Page.TopAppBar>
     <StackPanel Padding="32">
+
+
         <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
         <StackPanel Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}">
             <Grid>
@@ -45,5 +47,6 @@
 
             </Grid>
         </StackPanel>
+        <controls:InAppNotification x:Name="Notification"/>
     </StackPanel>
 </Page>
