@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,58 @@ namespace ModernPlayerManager.Models
         private string image;
         private User manager;
         private bool isCurrentUserManager;
-        private List<User> players;
+        private ObservableCollection<User> players;
         private DateTime created;
-        private List<Event> events;
-        private List<Game> games;
+        private ObservableCollection<Event> events;
+        private ObservableCollection<Game> games;
 
+        public ObservableCollection<Event> Events
+        {
+            get => events;
+            set
+            {
+                events = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime Created
+        {
+            get => created;
+            set
+            {
+                created = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<User> Players
+        {
+            get => players;
+            set
+            {
+                players = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Game> Games {
+            get => games;
+            set {
+                games = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public User Manager
+        {
+            get => manager;
+            set
+            {
+                manager = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Id {
             get => id;

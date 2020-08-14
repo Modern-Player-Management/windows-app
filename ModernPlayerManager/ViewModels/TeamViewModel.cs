@@ -60,11 +60,8 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public InAppNotification Notification { get; private set; }
-
-        public TeamViewModel(string teamId, InAppNotification notification) {
+        public TeamViewModel(string teamId) {
             this.teamId = teamId;
-            Notification = notification;
             this.OpenAddPlayerToTeamDialog = new OpenAddPlayerToTeamDialogCommand(this);
             this.DeleteTeamCommand = new DeleteTeamCommand(this);
         }
@@ -162,7 +159,6 @@ namespace ModernPlayerManager.ViewModels
         public async void AddPlayerToTeam() {
             var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
-            Notification.Show("Player added to the team",4000);
         }
     }
 }

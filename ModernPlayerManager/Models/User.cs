@@ -9,9 +9,9 @@ namespace ModernPlayerManager.Models
 {
     public class User : NotificationBase
     {
-        private string id { get; set; }
-        private string username { get; set; }
-        private string image { get; set; }
+        private string id;
+        private string username;
+        private string image;
 
         public string Id
         {

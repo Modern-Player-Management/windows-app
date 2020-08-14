@@ -31,7 +31,7 @@ namespace ModernPlayerManager.Pages
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
-            ViewModel = new TeamViewModel(e.Parameter.ToString(), Notification);
+            ViewModel = new TeamViewModel(e.Parameter.ToString());
             await ViewModel.FetchTeam();
         }
     }

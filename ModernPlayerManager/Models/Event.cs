@@ -3,19 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModernPlayerManager.ViewModels;
 
 namespace ModernPlayerManager.Models
 {
-    public class Event
+    public class Event : NotificationBase
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public int Type { get; set; }
-        public List<Participation> Participations { get; set; }
-        public List<Discrepancy> Discrepancies { get; set; }
-        public bool CurrentHasConfirmed { get; set; }
+        private string id;
+        private string name;
+        private string description;
+        private DateTime start;
+        private DateTime end;
+        private int type;
+        private List<Participation> participations;
+        private List<Discrepancy> discrepancies;
+        private bool currentHasConfirmed;
+
+
+        public string Id {
+            get => id;
+            set {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name {
+            get => name;
+            set {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Description {
+            get => description;
+            set {
+                description = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CurrentHasConfirmed {
+            get => currentHasConfirmed;
+            set {
+                currentHasConfirmed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime Start {
+            get => start;
+            set {
+                start = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime End {
+            get => end;
+            set {
+                end = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
