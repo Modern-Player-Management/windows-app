@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -30,10 +31,11 @@ namespace ModernPlayerManager.ViewModels
 
 
         public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
-        public ICommand DeleteTeamCommand { get; private set; }
-        public ICommand OpenAddPlayerToTeamDialog { get; private set; }
+        public DeleteTeamCommand DeleteTeamCommand { get; private set; }
+        public OpenAddPlayerToTeamDialogCommand OpenAddPlayerToTeamDialog { get; private set; }
+
 
         private Team team;
         private bool loading = true;
@@ -57,6 +59,8 @@ namespace ModernPlayerManager.ViewModels
             {
                 team = value;
                 OnPropertyChanged();
+                OpenAddPlayerToTeamDialog.RaiseCanExecuteChanged();
+                DeleteTeamCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -66,9 +70,11 @@ namespace ModernPlayerManager.ViewModels
             this.DeleteTeamCommand = new DeleteTeamCommand(this);
         }
 
-        public bool Loading {
+        public bool Loading
+        {
             get => loading;
-            set {
+            set
+            {
                 loading = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NotLoading));
@@ -79,14 +85,13 @@ namespace ModernPlayerManager.ViewModels
         public bool NotLoading => !loading;
 
 
-
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
                 Loading = false;
 
                 Guid x;
-                if(Team.Image != null && Guid.TryParse(Team.Image, out x)) {
+                if (Team.Image != null && Guid.TryParse(Team.Image, out x)) {
                     var httpContent = await FileApi.GetFile(Team.Image);
                     var bytes = await httpContent.ReadAsByteArrayAsync();
                     TeamImage = await GetBitmapAsync(bytes);
@@ -119,12 +124,11 @@ namespace ModernPlayerManager.ViewModels
                 return;
             }
 
-            try
-            {
+            try {
                 await TeamApi.DeleteTeam(Team.Id);
                 MainViewModel.Teams.Remove(MainViewModel.Teams.First(t => t.Id == Team.Id));
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 var dialog = new ContentDialog
                 {
                     Title = "Loading Error",
@@ -135,14 +139,11 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public async Task<BitmapImage> GetBitmapAsync(byte[] data)
-        {
+        public async Task<BitmapImage> GetBitmapAsync(byte[] data) {
             var bitmapImage = new BitmapImage();
 
-            using (var stream = new InMemoryRandomAccessStream())
-            {
-                using (var writer = new DataWriter(stream))
-                {
+            using (var stream = new InMemoryRandomAccessStream()) {
+                using (var writer = new DataWriter(stream)) {
                     writer.WriteBytes(data);
                     await writer.StoreAsync();
                     await writer.FlushAsync();
@@ -159,6 +160,12 @@ namespace ModernPlayerManager.ViewModels
         public async void AddPlayerToTeam() {
             var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
+        }
+
+        public async void ShowEventDetails(Event evt)
+        {
+            var dialog = new EventDialog(evt);
+            await dialog.ShowAsync();
         }
     }
 }

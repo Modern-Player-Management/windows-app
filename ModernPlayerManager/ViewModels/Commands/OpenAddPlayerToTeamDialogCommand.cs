@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace ModernPlayerManager.ViewModels.Commands
 {
-    class OpenAddPlayerToTeamDialogCommand : ICommand
+    public class OpenAddPlayerToTeamDialogCommand : ICommand
     {
         private TeamViewModel viewModel;
 
@@ -16,7 +16,7 @@ namespace ModernPlayerManager.ViewModels.Commands
         }
 
         public bool CanExecute(object parameter) {
-            return true;
+            return viewModel.Team?.IsCurrentUserManager ?? false;
         }
 
         public void Execute(object parameter) {
@@ -24,5 +24,10 @@ namespace ModernPlayerManager.ViewModels.Commands
         }
 
         public event EventHandler CanExecuteChanged;
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

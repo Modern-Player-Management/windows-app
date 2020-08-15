@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,55 +15,105 @@ namespace ModernPlayerManager.Models
         private string description;
         private DateTime start;
         private DateTime end;
-        private int type;
-        private List<Participation> participations;
-        private List<Discrepancy> discrepancies;
+        private EventType type;
+        private ObservableCollection<Participation> participations;
+        private ObservableCollection<Discrepancy> discrepancies;
         private bool currentHasConfirmed;
 
+        public enum EventType
+        {
+            Scrim,
+            Meeting,
+            Tournament,
+            Coaching
+        }
 
-        public string Id {
+        public ObservableCollection<Discrepancy> Discrepancies
+        {
+            get => discrepancies;
+            set
+            {
+                discrepancies = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public ObservableCollection<Participation> Participations
+        {
+            get => participations;
+            set
+            {
+                participations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EventType Type
+        {
+            get => type;
+            set
+            {
+                type = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Id
+        {
             get => id;
-            set {
+            set
+            {
                 id = value;
                 OnPropertyChanged();
             }
         }
 
-        public string Name {
+        public string Name
+        {
             get => name;
-            set {
+            set
+            {
                 name = value;
                 OnPropertyChanged();
             }
         }
 
-        public string Description {
+        public string Description
+        {
             get => description;
-            set {
+            set
+            {
                 description = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool CurrentHasConfirmed {
+        public bool CurrentHasConfirmed
+        {
             get => currentHasConfirmed;
-            set {
+            set
+            {
                 currentHasConfirmed = value;
                 OnPropertyChanged();
             }
         }
 
-        public DateTime Start {
+        public DateTime Start
+        {
             get => start;
-            set {
+            set
+            {
                 start = value;
                 OnPropertyChanged();
             }
         }
 
-        public DateTime End {
+        public DateTime End
+        {
             get => end;
-            set {
+            set
+            {
                 end = value;
                 OnPropertyChanged();
             }

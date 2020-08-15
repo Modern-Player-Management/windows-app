@@ -9,8 +9,10 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:models="using:ModernPlayerManager.Models"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:viewModels="using:ModernPlayerManager.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
 
+    
     <Page.TopAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
@@ -24,7 +26,7 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.TopAppBar>
-    <ScrollViewer>
+    <ScrollViewer >
         <StackPanel Padding="32">
             <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
             <StackPanel Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}">
@@ -82,7 +84,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock Margin="0,4,0,0" Text="{x:Bind Name, Mode=OneWay}" />
-                                        <Button Grid.Column="1" HorizontalAlignment="Right">
+                                        <Button Click="ButtonShowEventDetails_OnClick" Grid.Column="1" HorizontalAlignment="Right">
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE7B3;" />
                                             </StackPanel>

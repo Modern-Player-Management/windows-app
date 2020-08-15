@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ModernPlayerManager.Models;
 using ModernPlayerManager.ViewModels;
 
 // Pour plus d'informations sur le modèle d'élément Page vierge, consultez la page https://go.microsoft.com/fwlink/?LinkId=234238
@@ -28,11 +29,17 @@ namespace ModernPlayerManager.Pages
         public TeamPage()
         {
             this.InitializeComponent();
+            this.DataContext = ViewModel;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             ViewModel = new TeamViewModel(e.Parameter.ToString());
             await ViewModel.FetchTeam();
+        }
+
+        private void ButtonShowEventDetails_OnClick(object sender, RoutedEventArgs e) {
+            var evt = (sender as Button)?.DataContext as Event;
+            ViewModel.ShowEventDetails(evt);
         }
     }
 

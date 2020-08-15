@@ -119,11 +119,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanIconConverter.cs" />
+    <Compile Include="Converters\BooleanNegationConverter.cs" />
     <Compile Include="Dialogs\AddPlayerToTeamDialog.xaml.cs">
       <DependentUpon>AddPlayerToTeamDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\CreateTeamDialog.xaml.cs">
       <DependentUpon>CreateTeamDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EventDialog.xaml.cs">
+      <DependentUpon>EventDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -165,6 +170,7 @@
     <Compile Include="ViewModels\Commands\NavigateToRegisterCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenAddPlayerToTeamDialogCommand.cs" />
     <Compile Include="ViewModels\Commands\SearchUserCommand.cs" />
+    <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
@@ -198,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\CreateTeamDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EventDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

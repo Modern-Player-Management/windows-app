@@ -1,0 +1,100 @@
+﻿<ContentDialog
+    x:Class="ModernPlayerManager.Dialogs.EventDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernPlayerManager.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:ModernPlayerManager.Models"
+    xmlns:converters="using:ModernPlayerManager.Converters"
+    mc:Ignorable="d"
+    PrimaryButtonText="Close">
+
+    <ContentDialog.Resources>
+        <converters:BooleanIconConverter x:Name="BooleanIconConverter"></converters:BooleanIconConverter>
+    </ContentDialog.Resources>
+
+    <StackPanel>
+        <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="24">
+            <TextBlock Text="{x:Bind ViewModel.Event.Name}" FontSize="36" />
+            <TextBlock Text="{x:Bind ViewModel.Event.Description}" />
+            <StackPanel Spacing="4" Orientation="Horizontal">
+                <TextBlock Text="{x:Bind ViewModel.Event.Start}" />
+                <TextBlock Text="-" />
+                <TextBlock Text="{x:Bind ViewModel.Event.End}" />
+            </StackPanel>
+
+            <TextBlock Text="{x:Bind ViewModel.Event.Type}" />
+        </StackPanel>
+        <Grid Width="700" Margin="0,24,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="13*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Grid.Column="0" Padding="24">
+                <TextBlock FontSize="24" Text="Participations" />
+                <ListView ItemsSource="{x:Bind ViewModel.Event.Participations}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Participation">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="9*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{x:Bind Username}" />
+                                <FontIcon Grid.Column="1" Glyph="{x:Bind Confirmed, Converter={StaticResource BooleanIconConverter}}"></FontIcon>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Grid.Column="2" Padding="24">
+                <TextBlock FontSize="24" Text="Discrepancies" />
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Player" />
+                    <TextBlock Text="Type" Grid.Column="1"/>
+                    <TextBlock Text="Reason" Grid.Column="2"/>
+                    <TextBlock Text="Delay" Grid.Column="3"/>
+                </Grid>
+                    <ListView ItemsSource="{x:Bind ViewModel.Event.Discrepancies}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Discrepancy">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind Username}" />
+                            <TextBlock Text="{x:Bind Type}" Grid.Column="1"/>
+                            <TextBlock Text="{x:Bind Reason}" Grid.Column="2"/>
+                            <TextBlock Text="{x:Bind DelayLength}" Grid.Column="3"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+
+</ContentDialog>
