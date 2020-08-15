@@ -44,13 +44,15 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public ClickLoginCommand ClickLoginCommand { get; set; }
-        public ICommand NavigateToRegisterCommand { get; set; }
+        public RelayCommand ClickLoginCommand { get; set; }
+        public RelayCommand NavigateToRegisterCommand { get; set; }
 
         public LoginViewModel() {
-            ClickLoginCommand = new ClickLoginCommand(this);
-            NavigateToRegisterCommand = new NavigateToRegisterCommand(this);
+            ClickLoginCommand = new RelayCommand(Login,CanLogin);
+            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister, () => true);
         }
+
+        public bool CanLogin() => Username?.Length > 0 && Password?.Length > 0;
 
         public bool Loading
         {

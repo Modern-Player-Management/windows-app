@@ -43,8 +43,8 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public ICommand SearchUserCommand { get; private set; }
-        public AddPlayerToTeamCommand AddUserCommand { get; private set; }
+        public RelayCommand SearchUserCommand { get; private set; }
+        public RelayCommand AddUserCommand { get; private set; }
         public ObservableCollection<User> SearchResult { get; set; } = new ObservableCollection<User>();
         public IUserApi UserApi = RestService.For<IUserApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
@@ -53,10 +53,12 @@ namespace ModernPlayerManager.ViewModels
 
 
         public AddPlayerToTeamViewModel(Team team) {
-            SearchUserCommand = new SearchUserCommand(this);
+            SearchUserCommand = new RelayCommand(SearchUser, () => true);
             Team = team;
-            AddUserCommand = new AddPlayerToTeamCommand(this);
+            AddUserCommand = new RelayCommand(AddUser, CanAddPlayer);
         }
+
+        private bool CanAddPlayer() => SelectedUser != null;
 
         public async void SearchUser() {
             SearchResult.Clear();

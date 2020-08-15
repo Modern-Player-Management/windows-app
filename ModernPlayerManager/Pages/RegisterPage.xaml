@@ -17,5 +17,7 @@
         <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" Margin="0,16,0,0" Width="256" Header="Enter your password:" AutomationProperties.Name="Password"/>
         <Button Command="{x:Bind ViewModel.ClickRegisterCommand}" Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Style="{StaticResource AccentButtonStyle}" Content="Register" />
         <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
-    </StackPanel>
+        <Button Command="{x:Bind ViewModel.NavigateToRegisterCommand}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Content="Login" />
+
+</StackPanel>
 </Page>

@@ -69,22 +69,22 @@
                             <TextBlock Text="Events" FontSize="24" />
                         </StackPanel>
                         <ListView Margin="0,32,0,0"
-                                  ItemsSource="{x:Bind ViewModel.Team.Events, Mode=OneWay}" SelectionMode="Single">
+                                  ItemsSource="{x:Bind ViewModel.TeamEvents, Mode=OneWay}" SelectionMode="Single">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Event">
+                                <DataTemplate x:DataType="viewModels:EventListItemViewModel">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="9*" />
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Margin="0,4,0,0" Text="{x:Bind Name, Mode=OneWay}" />
-                                        <Button Click="ButtonShowEventDetails_OnClick" Grid.Column="1" HorizontalAlignment="Right">
+                                        <TextBlock Margin="0,4,0,0" Text="{x:Bind Event.Name, Mode=OneWay}" />
+                                        <Button Command="{x:Bind ShowEventDetailCommand}" Grid.Column="1" HorizontalAlignment="Right">
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE7B3;" />
                                             </StackPanel>

@@ -53,10 +53,16 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public ClickRegisterCommand ClickRegisterCommand { get; set; }
+        public RelayCommand ClickRegisterCommand { get; set; }
+        public RelayCommand NavigateToRegisterCommand { get; set; }
 
         public RegisterViewModel() {
-            ClickRegisterCommand = new ClickRegisterCommand(this);
+            ClickRegisterCommand = new RelayCommand(Register, () => true);
+            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister, () => true);
+        }
+
+        private void NavigateToRegister() {
+            (Window.Current.Content as Frame)?.Navigate(typeof(RegisterPage));
         }
 
         public bool Loading

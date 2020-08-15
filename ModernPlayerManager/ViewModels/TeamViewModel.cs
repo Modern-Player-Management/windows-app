@@ -33,8 +33,8 @@ namespace ModernPlayerManager.ViewModels
         public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
-        public DeleteTeamCommand DeleteTeamCommand { get; private set; }
-        public OpenAddPlayerToTeamDialogCommand OpenAddPlayerToTeamDialog { get; private set; }
+        public AsyncCommand DeleteTeamCommand { get; private set; }
+        public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
 
 
         private Team team;
@@ -64,11 +64,25 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
+        private ObservableCollection<EventListItemViewModel> teamEvents;
+
+        public ObservableCollection<EventListItemViewModel> TeamEvents
+        {
+            get => teamEvents;
+            set
+            {
+                teamEvents = value;
+                OnPropertyChanged();
+            }
+        }
+
         public TeamViewModel(string teamId) {
             this.teamId = teamId;
-            this.OpenAddPlayerToTeamDialog = new OpenAddPlayerToTeamDialogCommand(this);
-            this.DeleteTeamCommand = new DeleteTeamCommand(this);
+            this.OpenAddPlayerToTeamDialog = new RelayCommand(AddPlayerToTeam, IsUserTeamManager);
+            this.DeleteTeamCommand = new AsyncCommand(DeleteTeam, IsUserTeamManager);
         }
+
+        private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
 
         public bool Loading
         {
@@ -88,6 +102,7 @@ namespace ModernPlayerManager.ViewModels
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
+                TeamEvents = new ObservableCollection<EventListItemViewModel>(Team.Events.Select(evt => new EventListItemViewModel(evt)).ToList());
                 Loading = false;
 
                 Guid x;
@@ -95,6 +110,7 @@ namespace ModernPlayerManager.ViewModels
                     var httpContent = await FileApi.GetFile(Team.Image);
                     var bytes = await httpContent.ReadAsByteArrayAsync();
                     TeamImage = await GetBitmapAsync(bytes);
+
                 }
             }
             catch (Exception e) {
@@ -160,12 +176,11 @@ namespace ModernPlayerManager.ViewModels
         public async void AddPlayerToTeam() {
             var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
+            if(buttonClicked == ContentDialogResult.Primary) {
+                Team.Players.Add(dialog.ViewModel.SelectedUser);
+            }
         }
 
-        public async void ShowEventDetails(Event evt)
-        {
-            var dialog = new EventDialog(evt);
-            await dialog.ShowAsync();
-        }
+
     }
 }

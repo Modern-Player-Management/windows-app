@@ -36,11 +36,6 @@ namespace ModernPlayerManager.Pages
             ViewModel = new TeamViewModel(e.Parameter.ToString());
             await ViewModel.FetchTeam();
         }
-
-        private void ButtonShowEventDetails_OnClick(object sender, RoutedEventArgs e) {
-            var evt = (sender as Button)?.DataContext as Event;
-            ViewModel.ShowEventDetails(evt);
-        }
     }
 
 
