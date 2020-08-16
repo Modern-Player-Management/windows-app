@@ -19,5 +19,82 @@ namespace ModernPlayerManager.Models
         private int goalShots { get; set; }
         private string id { get; set; }
         private DateTime created { get; set; }
+
+        public int GoalShots {
+            get => goalShots;
+            set {
+                goalShots = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string GameId {
+            get => gameId;
+            set {
+                gameId = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public int Score {
+            get => score;
+            set {
+                score = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Assists {
+            get => assists;
+            set {
+                assists = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Shots {
+            get => shots;
+            set {
+                shots = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Saves {
+            get => saves;
+            set {
+                saves = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public int Goals {
+            get => goals;
+            set {
+                goals = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string Player {
+            get => player;
+            set {
+                player = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string Id {
+            get => id;
+            set {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 }

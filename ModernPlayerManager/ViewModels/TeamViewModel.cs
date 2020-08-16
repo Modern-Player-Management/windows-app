@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
@@ -76,6 +77,18 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
+        private ObservableCollection<GameListItemViewModel> teamGames;
+
+        public ObservableCollection<GameListItemViewModel> TeamGames
+        {
+            get => teamGames;
+            set
+            {
+                teamGames = value;
+                OnPropertyChanged();
+            }
+        }
+
         public TeamViewModel(string teamId) {
             this.teamId = teamId;
             this.OpenAddPlayerToTeamDialog = new RelayCommand(AddPlayerToTeam, IsUserTeamManager);
@@ -102,7 +115,8 @@ namespace ModernPlayerManager.ViewModels
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
-                TeamEvents = new ObservableCollection<EventListItemViewModel>(Team.Events.Select(evt => new EventListItemViewModel(evt)).ToList());
+                TeamEvents = new ObservableCollection<EventListItemViewModel>(Team.Events.Select(evt => new EventListItemViewModel(evt)));
+                TeamGames = new ObservableCollection<GameListItemViewModel>(Team.Games.Select(game => new GameListItemViewModel(game, Team.IsCurrentUserManager)));
                 Loading = false;
 
                 Guid x;
@@ -157,7 +171,7 @@ namespace ModernPlayerManager.ViewModels
 
         public async Task<BitmapImage> GetBitmapAsync(byte[] data) {
             var bitmapImage = new BitmapImage();
-
+ 
             using (var stream = new InMemoryRandomAccessStream()) {
                 using (var writer = new DataWriter(stream)) {
                     writer.WriteBytes(data);
@@ -173,7 +187,7 @@ namespace ModernPlayerManager.ViewModels
             return bitmapImage;
         }
 
-        public async void AddPlayerToTeam() {
+        public async void AddPlayerToTeam() { 
             var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
             if(buttonClicked == ContentDialogResult.Primary) {
