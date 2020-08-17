@@ -31,13 +31,14 @@ namespace ModernPlayerManager
 
         public MainPage() {
             this.InitializeComponent();
+            ViewModel.ContentFrame = contentFrame;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             ViewModel.FetchTeams();
         }
 
-        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e) {
+        private void AddTeam_OnTapped(object sender, TappedRoutedEventArgs e) {
             ViewModel.AddTeam();
         }
 
@@ -50,6 +51,10 @@ namespace ModernPlayerManager
             else {
                 contentFrame.Navigate(typeof(TeamWelcomePage));
             }
+        }
+
+        private void UserProfile_OnTapped(object sender, TappedRoutedEventArgs e) {
+            ViewModel.NavigateToUserProfile();
         }
     }
 }

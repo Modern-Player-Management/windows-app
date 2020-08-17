@@ -23,95 +23,107 @@ namespace ModernPlayerManager.ViewModels
 {
     public class TeamViewModel : NotificationBase
     {
-        public MainViewModel MainViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
-
-        private readonly string teamId;
-
-        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
-
-
-        public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
-
-        public AsyncCommand DeleteTeamCommand { get; private set; }
-        public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
-
+        
+        #region Fields
 
         private Team team;
         private bool loading = true;
-
+        private ObservableCollection<EventListItemViewModel> teamEvents;
+        private ObservableCollection<GameListItemViewModel> teamGames;
         private BitmapImage image;
+        private readonly string teamId;
+        public bool NotLoading => !loading;
+        
+        #endregion
 
-        public BitmapImage TeamImage
-        {
+        #region Properties
+        public MainViewModel MainViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
+
+
+        public BitmapImage TeamImage {
             get => image;
-            set
-            {
+            set {
                 image = value;
                 OnPropertyChanged();
             }
         }
 
-        public Team Team
-        {
+        public Team Team {
             get => team;
-            set
-            {
+            set {
                 team = value;
                 OnPropertyChanged();
                 OpenAddPlayerToTeamDialog.RaiseCanExecuteChanged();
                 DeleteTeamCommand.RaiseCanExecuteChanged();
+                OpenEditTeamDialogCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private ObservableCollection<EventListItemViewModel> teamEvents;
 
-        public ObservableCollection<EventListItemViewModel> TeamEvents
-        {
+        public ObservableCollection<EventListItemViewModel> TeamEvents {
             get => teamEvents;
-            set
-            {
+            set {
                 teamEvents = value;
                 OnPropertyChanged();
             }
         }
 
-        private ObservableCollection<GameListItemViewModel> teamGames;
 
-        public ObservableCollection<GameListItemViewModel> TeamGames
-        {
+        public ObservableCollection<GameListItemViewModel> TeamGames {
             get => teamGames;
-            set
-            {
+            set {
                 teamGames = value;
                 OnPropertyChanged();
             }
         }
 
-        public TeamViewModel(string teamId) {
-            this.teamId = teamId;
-            this.OpenAddPlayerToTeamDialog = new RelayCommand(AddPlayerToTeam, IsUserTeamManager);
-            this.DeleteTeamCommand = new AsyncCommand(DeleteTeam, IsUserTeamManager);
-        }
 
-        private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
-
-        public bool Loading
-        {
+        public bool Loading {
             get => loading;
-            set
-            {
+            set {
                 loading = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NotLoading));
             }
         }
 
+        #endregion
 
-        public bool NotLoading => !loading;
+        public TeamViewModel(string teamId) {
+            this.teamId = teamId;
+            this.OpenAddPlayerToTeamDialog = new RelayCommand(AddPlayerToTeam, IsUserTeamManager);
+            this.DeleteTeamCommand = new AsyncCommand(DeleteTeam, IsUserTeamManager);
+            this.OpenEditTeamDialogCommand = new RelayCommand(UpdateTeamDialogCommand, IsUserTeamManager);
+        }
+
+        private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
+
+        #region Commands
+
+        public AsyncCommand DeleteTeamCommand { get; private set; }
+        public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
+        public RelayCommand OpenEditTeamDialogCommand { get; private set; }
+
+        #endregion
+
+        #region Webservices
+
+        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
+            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
 
 
+        public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
+            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+
+        #endregion
+
+        #region Handlers
+
+        public async void UpdateTeamDialogCommand() {
+            var dialog = new EditTeamDialog(Team);
+            await dialog.ShowAsync();
+        }
+        
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
@@ -194,7 +206,7 @@ namespace ModernPlayerManager.ViewModels
                 Team.Players.Add(dialog.ViewModel.SelectedUser);
             }
         }
-
+        #endregion
 
     }
 }

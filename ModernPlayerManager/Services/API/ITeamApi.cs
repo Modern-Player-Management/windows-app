@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ModernPlayerManager.Annotations;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Services.DTO;
 using Refit;
 
 namespace ModernPlayerManager.Services.API
@@ -26,5 +27,8 @@ namespace ModernPlayerManager.Services.API
 
         [Post("/api/Teams/{teamId}/player/{playerId}")]
         Task AddPlayerToTeam([AliasAs("teamId")] string teamId, [AliasAs("playerId")] string playerId);
+
+        [Put("/api/Teams/{id}")]
+        Task UpdateTeam([AliasAs("id")] string teamId, [Body] UpdateTeamDTO dto);
     }
 }

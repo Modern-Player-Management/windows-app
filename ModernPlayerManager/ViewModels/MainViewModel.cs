@@ -24,10 +24,16 @@ namespace ModernPlayerManager.ViewModels
         public ITeamApi Api = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
+        public Frame ContentFrame { get;  set; }
+
 
         public async void FetchTeams() {
             Teams.Clear();
             (await Api.GetTeams()).ForEach(Teams.Add);
+        }
+
+        public void NavigateToUserProfile() {
+            ContentFrame.Navigate(typeof(UserProfilePage));
         }
 
         public async void AddTeam() {

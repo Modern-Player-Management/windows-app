@@ -20,6 +20,7 @@
                               Icon="Add" Label="Add Player" Command="{x:Bind ViewModel.OpenAddPlayerToTeamDialog}" />
                 <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Command="{x:Bind ViewModel.OpenEditTeamDialogCommand}"
                               Icon="Edit" Label="Edit this Team" />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Delete" Command="{x:Bind ViewModel.DeleteTeamCommand}" Label="Delete this Team" />

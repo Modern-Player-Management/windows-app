@@ -13,5 +13,8 @@ namespace ModernPlayerManager.Services.DTO
     {
         [Get("/api/Users/search")]
         Task<List<User>> SearchUser([Query("search")] string search);
+
+        [Get("/api/Users/profile")]
+        Task<UserProfile> GetUserProfile();
     }
 }

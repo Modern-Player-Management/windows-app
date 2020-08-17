@@ -1,0 +1,19 @@
+﻿<ContentDialog
+    x:Class="ModernPlayerManager.Dialogs.EditTeamDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernPlayerManager.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Team"
+    PrimaryButtonText="Save"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonCommand="{x:Bind ViewModel.UpdateTeamCommand}"
+    >
+
+    <StackPanel>
+        <TextBox Margin="0,16,0,0" Text="{x:Bind ViewModel.Team.Name, Mode=TwoWay}" Header="Name" PlaceholderText="Enter the new Team name"></TextBox>
+        <TextBox Margin="0,16,0,0" Text="{x:Bind ViewModel.Team.Description, Mode=TwoWay}" Header="Description" PlaceholderText="Enter the new Team Description"></TextBox>
+    </StackPanel>
+</ContentDialog>

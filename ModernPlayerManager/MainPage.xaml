@@ -16,9 +16,12 @@
         </DataTemplate>
     </Page.Resources>
 
-    <muxc:NavigationView SelectionChanged="NavigationView_OnSelectionChanged" MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
+    <muxc:NavigationView IsSettingsVisible="False" SelectionChanged="NavigationView_OnSelectionChanged" MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
         <muxc:NavigationView.PaneFooter>
-            <muxc:NavigationViewItem Tapped="UIElement_OnTapped" Icon="Add" Content="Add Team" />
+            <StackPanel>
+            <muxc:NavigationViewItem Tapped="AddTeam_OnTapped" Icon="Add" Content="Add Team" />
+                <muxc:NavigationViewItem Tapped="UserProfile_OnTapped" Icon="Contact" Content="User Profile" />
+            </StackPanel>
         </muxc:NavigationView.PaneFooter>
         <Frame x:Name="contentFrame"/>
     </muxc:NavigationView>
