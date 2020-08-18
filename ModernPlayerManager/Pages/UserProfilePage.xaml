@@ -14,7 +14,7 @@
             <CommandBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Edit" Label="Edit your Profile" />
-                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                <AppBarButton Command="{x:Bind ViewModel.CopyICalCommand}"  Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Link" Label="Get Calendar Link" />
             </CommandBar.PrimaryCommands>
         </CommandBar>

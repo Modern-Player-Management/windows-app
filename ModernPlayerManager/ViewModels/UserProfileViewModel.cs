@@ -4,12 +4,15 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
+using ModernPlayerManager.ViewModels.Commands;
 using Refit;
 
 namespace ModernPlayerManager.ViewModels
@@ -18,6 +21,9 @@ namespace ModernPlayerManager.ViewModels
     {
         private UserProfile userProfile;
         private BitmapImage image;
+
+        public RelayCommand CopyICalCommand;
+
 
         public UserProfile UserProfile
         {
@@ -45,6 +51,7 @@ namespace ModernPlayerManager.ViewModels
 
         public UserProfileViewModel() {
             FetchUserProfile();
+            CopyICalCommand = new RelayCommand(CopyICalLink);
         }
 
         public async void FetchUserProfile() {
@@ -79,6 +86,20 @@ namespace ModernPlayerManager.ViewModels
             }
 
             return bitmapImage;
+        }
+
+        public async void CopyICalLink() {
+            var dataPackage = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
+            dataPackage.SetText($"https://api-mpm.herokuapp.com/api/Events/ical/{UserProfile.CalendarSecret}");
+            Clipboard.SetContent(dataPackage);
+
+            var dialog = new ContentDialog()
+            {
+                Title = "Link Copied",
+                Content = "Your event feed ICal link has been copied to your clipboard",
+                CloseButtonText = "Ok"
+            };
+            await dialog.ShowAsync();
         }
 
     }
