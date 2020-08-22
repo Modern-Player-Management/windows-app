@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Pages;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.ViewModels.Commands;
 using Refit;
@@ -94,6 +95,7 @@ namespace ModernPlayerManager.ViewModels
             this.OpenAddPlayerToTeamDialog = new RelayCommand(AddPlayerToTeam, IsUserTeamManager);
             this.DeleteTeamCommand = new AsyncCommand(DeleteTeam, IsUserTeamManager);
             this.OpenEditTeamDialogCommand = new RelayCommand(UpdateTeamDialogCommand, IsUserTeamManager);
+            this.NavigateToStatsCommand = new RelayCommand(NavigateToStats);
         }
 
         private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
@@ -103,6 +105,7 @@ namespace ModernPlayerManager.ViewModels
         public AsyncCommand DeleteTeamCommand { get; private set; }
         public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
         public RelayCommand OpenEditTeamDialogCommand { get; private set; }
+        public RelayCommand NavigateToStatsCommand { get; private set; }
 
         #endregion
 
@@ -205,6 +208,10 @@ namespace ModernPlayerManager.ViewModels
             if(buttonClicked == ContentDialogResult.Primary) {
                 Team.Players.Add(dialog.ViewModel.SelectedUser);
             }
+        }
+
+        public void NavigateToStats() {
+            MainViewModel.ContentFrame.Navigate(typeof(StatsPage), Team.Id);
         }
         #endregion
 

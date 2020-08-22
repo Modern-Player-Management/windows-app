@@ -16,6 +16,12 @@
     <Page.TopAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}" 
+                               Label="Team stats" Command="{x:Bind ViewModel.NavigateToStatsCommand}" >
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE9D2;" FontSize="28"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Add" Label="Add Player" Command="{x:Bind ViewModel.OpenAddPlayerToTeamDialog}" />
                 <AppBarSeparator />
