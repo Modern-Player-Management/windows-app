@@ -130,6 +130,9 @@
     <Compile Include="Dialogs\EditTeamDialog.xaml.cs">
       <DependentUpon>EditTeamDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\EditUserProfileDialog.xaml.cs">
+      <DependentUpon>EditUserProfileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EventDialog.xaml.cs">
       <DependentUpon>EventDialog.xaml</DependentUpon>
     </Compile>
@@ -180,6 +183,7 @@
     <Compile Include="ViewModels\Commands\AsyncCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\EditTeamViewModel.cs" />
+    <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\EventListItemViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\GameListItemViewModel.cs" />
@@ -223,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\EditTeamDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditUserProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

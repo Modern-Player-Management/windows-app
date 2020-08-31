@@ -19,11 +19,24 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="10*"  />
             <RowDefinition />
+            <RowDefinition Height="10*" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <uwp:ChartView Grid.Row="1" Grid.ColumnSpan="3" x:Name="ScoreChartView" />
-        <uwp:ChartView Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" x:Name="ShootingChartView" />
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" x:Name="Player1ChartView"></uwp:ChartView>
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="2" x:Name="Player2ChartView"></uwp:ChartView>
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="4" x:Name="Player3ChartView"></uwp:ChartView>
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" Text="{x:Bind ViewModel.PlayerName1, Mode=OneWay}" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2" Text="{x:Bind ViewModel.PlayerName2, Mode=OneWay}" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="4" Text="{x:Bind ViewModel.PlayerName3, Mode=OneWay}" TextAlignment="Center"></TextBlock>
+
+        <uwp:ChartView Grid.Row="2" Grid.ColumnSpan="3" x:Name="ScoreChartView" />
+        <uwp:ChartView Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" x:Name="ShootingChartView" />
+
+        <TextBlock Grid.ColumnSpan="3" Grid.Row="4" Text="Score" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.ColumnSpan="3" Grid.Row="4" Grid.Column="3" Text="Shooting" TextAlignment="Center"></TextBlock>
     </Grid>
 </Page>

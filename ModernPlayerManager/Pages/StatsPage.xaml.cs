@@ -34,7 +34,7 @@ namespace ModernPlayerManager.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = new StatsViewModel(e.Parameter.ToString(), ScoreChartView,ShootingChartView);
+            ViewModel = new StatsViewModel(e.Parameter.ToString(), ScoreChartView,ShootingChartView, Player1ChartView,Player2ChartView,Player3ChartView);
         }
     }
 }
