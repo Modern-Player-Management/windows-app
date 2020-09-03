@@ -8,6 +8,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
 using ModernPlayerManager.Services.API;
@@ -102,5 +103,9 @@ namespace ModernPlayerManager.ViewModels
             await dialog.ShowAsync();
         }
 
+        public async void EditUserProfile() {
+            var dialog = new EditUserProfileDialog(UserProfile);
+            await dialog.ShowAsync();
+        }
     }
 }

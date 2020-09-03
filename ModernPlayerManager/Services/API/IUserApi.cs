@@ -16,5 +16,8 @@ namespace ModernPlayerManager.Services.DTO
 
         [Get("/api/Users/profile")]
         Task<UserProfile> GetUserProfile();
+
+        [Put("/api/Users/{userId}")]
+        Task UpdateUserProfile([Body] UpdateUserProfileDTO dto, string userId);
     }
 }

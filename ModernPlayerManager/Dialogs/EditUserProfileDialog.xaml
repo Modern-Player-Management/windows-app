@@ -8,10 +8,11 @@
     mc:Ignorable="d"
     Title="Edit User Profile"
     PrimaryButtonText="Save"
+    PrimaryButtonCommand="{x:Bind ViewModel.UpdateCommand}"
     SecondaryButtonText="Cancel">
 
     <StackPanel>
-        <TextBox Text="{x:Bind ViewModel.UserProfile.Username, Mode=TwoWay}" PlaceholderText="Username..." Header="Username" ></TextBox>
-        <TextBox Text="{x:Bind ViewModel.UserProfile.Email, Mode=TwoWay}" PlaceholderText="Email..." Header="Email"></TextBox>
+        <TextBox Text="{x:Bind ViewModel.Username, Mode=TwoWay}" PlaceholderText="Username..." Header="Username" ></TextBox>
+        <TextBox Text="{x:Bind ViewModel.Email, Mode=TwoWay}" PlaceholderText="Email..." Header="Email"></TextBox>
     </StackPanel>
 </ContentDialog>

@@ -179,6 +179,7 @@
     <Compile Include="Services\DTO\LoginDTO.cs" />
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
     <Compile Include="Services\DTO\UpdateTeamDTO.cs" />
+    <Compile Include="Services\DTO\UpdateUserProfileDTO.cs" />
     <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
     <Compile Include="ViewModels\Commands\AsyncCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
