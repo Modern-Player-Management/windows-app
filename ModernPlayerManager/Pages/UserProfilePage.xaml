@@ -13,7 +13,7 @@
         <CommandBar>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
-                              Icon="Edit" Label="Edit your Profile" />
+                              Icon="Edit" Label="Edit your Profile" Command="{x:Bind ViewModel.EditProfileCommand}"/>
                 <AppBarButton Command="{x:Bind ViewModel.CopyICalCommand}"  Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Link" Label="Get Calendar Link" />
             </CommandBar.PrimaryCommands>

@@ -37,6 +37,8 @@ namespace ModernPlayerManager.ViewModels
 
         public EditUserViewModel(UserProfile userProfile) {
             this.userProfile = userProfile;
+            Email = userProfile.Email;
+            Username = userProfile.Username;
             UpdateCommand = new AsyncCommand(this.Update);
         }
 

@@ -23,7 +23,8 @@ namespace ModernPlayerManager.ViewModels
         private UserProfile userProfile;
         private BitmapImage image;
 
-        public RelayCommand CopyICalCommand;
+        public RelayCommand CopyICalCommand { get; set; }
+        public RelayCommand EditProfileCommand { get; set; }
 
 
         public UserProfile UserProfile
@@ -53,6 +54,7 @@ namespace ModernPlayerManager.ViewModels
         public UserProfileViewModel() {
             FetchUserProfile();
             CopyICalCommand = new RelayCommand(CopyICalLink);
+            EditProfileCommand = new RelayCommand(EditUserProfile);
         }
 
         public async void FetchUserProfile() {
