@@ -10,7 +10,7 @@ namespace ModernPlayerManager.Services.API
     [Headers("Authorization: Bearer")]
     public interface IDiscrepancyApi
     {
-        [Get("/api/Discrepancies/{discrepancyId}")]
+        [Delete("/api/Discrepancies/{discrepancyId}")]
         Task DeleteDiscrepancy(string discrepancyId);
     }
 }

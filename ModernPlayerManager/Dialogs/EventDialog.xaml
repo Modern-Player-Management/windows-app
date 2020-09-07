@@ -64,6 +64,7 @@
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Player" />
                     <TextBlock Text="Type" Grid.Column="1"/>
@@ -84,11 +85,26 @@
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
                             <TextBlock Text="{x:Bind Username}" />
                             <TextBlock Text="{x:Bind Type}" Grid.Column="1"/>
                             <TextBlock Text="{x:Bind Reason}" Grid.Column="2"/>
                             <TextBlock Text="{x:Bind DelayLength}" Grid.Column="3"/>
+                            <Button Grid.Column="4" HorizontalAlignment="Right">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Are you sure ?" Margin="0,0,0,12" />
+                                                <Button Click="DeleteDiscrepancy" Content="Yes" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+
+<StackPanel Spacing="8" Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE74D;" />
+                                </StackPanel>
+                            </Button>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

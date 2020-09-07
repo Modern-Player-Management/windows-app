@@ -28,5 +28,11 @@ namespace ModernPlayerManager.Dialogs
             this.InitializeComponent();
             ViewModel = new EventViewModel(evt);
         }
+
+        private async void DeleteDiscrepancy(object sender, RoutedEventArgs e)
+        {
+            var discrepancy = (sender as Button)?.DataContext as Discrepancy;
+            await ViewModel.DeleteDiscrepancy(discrepancy);
+        }
     }
 }
