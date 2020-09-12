@@ -121,8 +121,9 @@
     </Compile>
     <Compile Include="Converters\BooleanIconConverter.cs" />
     <Compile Include="Converters\BooleanNegationConverter.cs" />
-    <Compile Include="Dialogs\AddDiscrepancyDialog.xaml.cs">
-      <DependentUpon>AddDiscrepancyDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\DialogUtils.cs" />
+    <Compile Include="Dialogs\DiscrepancyDialog.xaml.cs">
+      <DependentUpon>DiscrepancyDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AddPlayerToTeamDialog.xaml.cs">
       <DependentUpon>AddPlayerToTeamDialog.xaml</DependentUpon>
@@ -180,13 +181,13 @@
     <Compile Include="Services\API\ILoginApi.cs" />
     <Compile Include="Services\API\ITeamApi.cs" />
     <Compile Include="Services\API\IUserApi.cs" />
-    <Compile Include="Services\DTO\CreateDiscrepancyDTO.cs" />
+    <Compile Include="Services\DTO\DiscrepancyDTO.cs" />
     <Compile Include="Services\DTO\RegisterDTO.cs" />
     <Compile Include="Services\DTO\LoginDTO.cs" />
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
     <Compile Include="Services\DTO\UpdateTeamDTO.cs" />
     <Compile Include="Services\DTO\UpdateUserProfileDTO.cs" />
-    <Compile Include="ViewModels\AddDiscrepancyViewModel.cs" />
+    <Compile Include="ViewModels\DiscrepancyViewModel.cs" />
     <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
     <Compile Include="ViewModels\Commands\AsyncCommand.cs" />
     <Compile Include="ViewModels\Commands\AsyncCommandParams.cs" />
@@ -229,7 +230,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Dialogs\AddDiscrepancyDialog.xaml">
+    <Page Include="Dialogs\DiscrepancyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

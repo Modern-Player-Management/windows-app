@@ -12,6 +12,6 @@ namespace ModernPlayerManager.Services.API
     public interface IEventApi
     {
         [Post("/api/Events/{eventId}/discrepancies")]
-        Task CreateDiscrepancy(string eventId, [Body] CreateDiscrepancyDTO dto);
+        Task CreateDiscrepancy(string eventId, [Body] DiscrepancyDTO dto);
     }
 }

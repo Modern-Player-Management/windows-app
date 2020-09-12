@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModernPlayerManager.Services.DTO
 {
-    public class CreateDiscrepancyDTO
+    public class DiscrepancyDTO
     {
         public int Type { get; set; }
         public string Reason { get; set; }

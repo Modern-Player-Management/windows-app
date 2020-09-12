@@ -44,6 +44,15 @@ namespace ModernPlayerManager.Pages
             }
         }
 
+        private async void EditDiscrepancy(object sender, RoutedEventArgs e)
+        {
+            var discrepancy = (sender as Button)?.DataContext as Discrepancy;
+            if (ViewModel.EditDiscrepancyCommand.CanExecute(discrepancy))
+            {
+                await ViewModel.EditDiscrepancyCommand.ExecuteAsync(discrepancy);
+            }
+        }
+
         private void HandleClickAddDiscrepancy(object sender, RoutedEventArgs e) {
             var evt = (sender as Button)?.DataContext as Event;
             if(ViewModel.AddDiscrepancyCommand.CanExecute(evt)) {

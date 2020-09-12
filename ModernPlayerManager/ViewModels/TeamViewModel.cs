@@ -98,6 +98,7 @@ namespace ModernPlayerManager.ViewModels
             this.DeleteDiscrepancyCommand =
                 new AsyncCommandParams<Discrepancy>(DeleteDiscrepancy, DiscrepancyIsFromCurrentUser);
             this.AddDiscrepancyCommand = new RelayCommandParams<Event>(AddDiscrepancy);
+            this.EditDiscrepancyCommand = new AsyncCommandParams<Discrepancy>(EditDiscrepancy);
         }
 
 
@@ -110,6 +111,7 @@ namespace ModernPlayerManager.ViewModels
 
         public AsyncCommand DeleteTeamCommand { get; private set; }
         public AsyncCommandParams<Discrepancy> DeleteDiscrepancyCommand { get; private set; }
+        public AsyncCommandParams<Discrepancy> EditDiscrepancyCommand { get; private set; }
         public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
         public RelayCommand OpenEditTeamDialogCommand { get; private set; }
         public RelayCommand NavigateToStatsCommand { get; private set; }
@@ -156,7 +158,7 @@ namespace ModernPlayerManager.ViewModels
 
 
         private async void AddDiscrepancy(Event evt) {
-            var dialog = new AddDiscrepancyDialog();
+            var dialog = new DiscrepancyDialog(DialogMode.Create);
             var result = await dialog.ShowAsync();
 
             if (result != ContentDialogResult.Primary || dialog.ViewModel.Dto == null) {
@@ -178,6 +180,43 @@ namespace ModernPlayerManager.ViewModels
                 await errorDialog.ShowAsync();
             }
             
+        }
+
+        private async Task EditDiscrepancy(Discrepancy discrepancy)
+        {
+            var dialog = new DiscrepancyDialog(DialogMode.Edit)
+            {
+                ViewModel =
+                {
+                    Type = discrepancy.Type.ToString(),
+                    DelayLength = (uint) discrepancy.DelayLength,
+                    Reason = discrepancy.Reason
+                }
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary || dialog.ViewModel.Dto == null)
+            {
+                return;
+            }
+
+            try
+            {
+                await DiscrepancyApi.UpdateDiscrepancy(discrepancy.Id, dialog.ViewModel.Dto);
+                await FetchTeam();
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.Message);
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
         }
 
         public async void UpdateTeamDialogCommand() {

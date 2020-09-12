@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
@@ -13,8 +14,10 @@ using Refit;
 
 namespace ModernPlayerManager.ViewModels
 {
-    public class AddDiscrepancyViewModel : NotificationBase
+    public class DiscrepancyViewModel : NotificationBase
     {
+        public DialogMode DialogMode { get; set; }
+
         public string Reason { get; set; }
 
         private string typeName;
@@ -29,6 +32,8 @@ namespace ModernPlayerManager.ViewModels
 
             }
         }
+
+        public string Title => DialogMode.ToString() + " Discrepancy";
 
         private Discrepancy.DiscrepancyType type;
         private bool delayLengthShown = false;
@@ -47,14 +52,15 @@ namespace ModernPlayerManager.ViewModels
 
         public uint DelayLength { get; set; }
         public List<string> TypeValues => Enum.GetNames(typeof(Discrepancy.DiscrepancyType)).ToList();
-        public CreateDiscrepancyDTO Dto { get; private set; }
+        public DiscrepancyDTO Dto { get; private set; }
 
-        public AddDiscrepancyViewModel() {
+        public DiscrepancyViewModel(DialogMode dialogMode) {
             CreateDiscrepancyCommand = new RelayCommand(CreateDiscrepancy);
+            DialogMode = dialogMode;
         }
 
         private void CreateDiscrepancy() {
-            Dto = new CreateDiscrepancyDTO()
+            Dto = new DiscrepancyDTO()
             {
                 Reason = Reason,
                 Type = (int) this.type,

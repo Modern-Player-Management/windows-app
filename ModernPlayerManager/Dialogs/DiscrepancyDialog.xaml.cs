@@ -18,12 +18,13 @@ using ModernPlayerManager.ViewModels;
 
 namespace ModernPlayerManager.Dialogs
 {
-    public sealed partial class AddDiscrepancyDialog : ContentDialog
+    public sealed partial class DiscrepancyDialog : ContentDialog
     {
-        public AddDiscrepancyViewModel ViewModel { get; set; } = new AddDiscrepancyViewModel();
+        public DiscrepancyViewModel ViewModel { get; set; } 
 
-        public AddDiscrepancyDialog() {
+        public DiscrepancyDialog(DialogMode mode) {
             this.InitializeComponent();
+            ViewModel = new DiscrepancyViewModel(mode);
         }
     }
 }
