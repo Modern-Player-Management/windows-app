@@ -79,8 +79,13 @@
                             <FontIcon Glyph="&#xE787;" FontSize="24" />
                             <TextBlock Text="Events" FontSize="24" />
                         </StackPanel>
-                        <muxc:ItemsRepeater Margin="0,24,0,0" ItemsSource="{x:Bind ViewModel.Team.Events, Mode=OneWay}">
-                            <muxc:ItemsRepeater.ItemTemplate>
+                        <ListView Margin="0,24,0,0" ItemsSource="{x:Bind ViewModel.Team.Events, Mode=OneWay}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Event">
                                     <controls:Expander
                                         HorizontalContentAlignment="Left"
@@ -211,8 +216,8 @@
 
                                 </DataTemplate>
 
-                            </muxc:ItemsRepeater.ItemTemplate>
-                        </muxc:ItemsRepeater>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
                                 Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="32"

@@ -18,16 +18,16 @@ namespace ModernPlayerManager.ViewModels
 {
     public class LoginViewModel : NotificationBase
     {
-        private bool _loading = false;
+        private bool loading = false;
 
-        private string _username;
+        private string username;
 
         public string Username
         {
-            get => _username;
+            get => username;
             set
             {
-                _username = value;
+                username = value;
                 ClickLoginCommand.RaiseCanExecuteChanged();
             }
         }
@@ -56,16 +56,16 @@ namespace ModernPlayerManager.ViewModels
 
         public bool Loading
         {
-            get => _loading;
+            get => loading;
             set
             {
-                _loading = value;
+                loading = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NotLoading));
             }
         }
 
-        public bool NotLoading => !_loading;
+        public bool NotLoading => !loading;
 
         public async void Login() {
             Loading = true;

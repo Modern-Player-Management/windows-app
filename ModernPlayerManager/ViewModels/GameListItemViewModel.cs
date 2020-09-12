@@ -43,7 +43,7 @@ namespace ModernPlayerManager.ViewModels
             await dialog.ShowAsync();
         }
 
-        public async void DeleteGame() {
+        public void DeleteGame() {
 
         }
     }

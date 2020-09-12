@@ -130,7 +130,7 @@ namespace ModernPlayerManager.ViewModels
             new HttpClient(new AuthenticatedHttpClientHandler())
                 {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
-        public IEventApi EventApi = RestService.For<IEventApi>(new HttpClient()
+        public IEventApi EventApi = RestService.For<IEventApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
         #endregion
@@ -165,8 +165,7 @@ namespace ModernPlayerManager.ViewModels
 
             try {
                 await EventApi.CreateDiscrepancy(evt.Id, dialog.ViewModel.Dto);
-
-                // TODO : get the discrepancy infos from the api and insert it in the event
+                await FetchTeam();
             }
             catch (Exception e) {
                 Debug.Print(e.Message);

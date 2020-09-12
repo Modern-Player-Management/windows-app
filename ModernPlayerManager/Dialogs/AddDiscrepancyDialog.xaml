@@ -9,11 +9,12 @@
     mc:Ignorable="d"
     Title="Add a Discprepancy"
     PrimaryButtonText="Add"
+    PrimaryButtonCommand="{x:Bind ViewModel.CreateDiscrepancyCommand}"
     SecondaryButtonText="Cancel">
 
     <StackPanel>
         <ComboBox Width="300" SelectedItem="{x:Bind ViewModel.Type, Mode=TwoWay}" ItemsSource="{x:Bind ViewModel.TypeValues}" Header="Type" PlaceholderText="Pick a type"></ComboBox>
-        <TextBox Header="Reason" PlaceholderText="Reason of the discrepancy"></TextBox>
+        <TextBox Header="Reason" Text="{x:Bind ViewModel.Reason, Mode=TwoWay}" PlaceholderText="Reason of the discrepancy"></TextBox>
         <controls:NumberBox Visibility="{x:Bind ViewModel.DelayLengthShown, Mode=OneWay}" Header="Delay Length" Value="{x:Bind ViewModel.DelayLength, Mode=TwoWay}" SmallChange="5" SpinButtonPlacementMode="Inline" LargeChange="5">
         </controls:NumberBox>
     </StackPanel>
