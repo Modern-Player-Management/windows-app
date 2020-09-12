@@ -48,7 +48,7 @@ namespace ModernPlayerManager.ViewModels
         public RelayCommand NavigateToRegisterCommand { get; set; }
 
         public LoginViewModel() {
-            ClickLoginCommand = new RelayCommand(Login,CanLogin);
+            ClickLoginCommand = new RelayCommand(Login, CanLogin);
             NavigateToRegisterCommand = new RelayCommand(NavigateToRegister, () => true);
         }
 
@@ -70,15 +70,18 @@ namespace ModernPlayerManager.ViewModels
         public async void Login() {
             Loading = true;
 
-            var api = RestService.For<ILoginApi>(new HttpClient(){BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+            var api = RestService.For<ILoginApi>(new HttpClient()
+                {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
             var dto = new LoginDTO() {Username = this.Username, Password = this.Password};
 
             try {
                 var loggedUser = await api.Login(dto);
                 AuthenticatedHttpClientHandler.Token = loggedUser.Token;
+                AuthenticatedHttpClientHandler.UserId = loggedUser.Id;
                 (Window.Current.Content as Frame)?.Navigate(typeof(MainPage));
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Loading = false;
                 ContentDialog dialog = new ContentDialog
                 {

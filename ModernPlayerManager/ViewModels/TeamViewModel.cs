@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
 using Windows.UI.Notifications;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -24,34 +25,37 @@ namespace ModernPlayerManager.ViewModels
 {
     public class TeamViewModel : NotificationBase
     {
-        
         #region Fields
 
         private Team team;
         private bool loading = true;
-        private ObservableCollection<EventListItemViewModel> teamEvents;
         private ObservableCollection<GameListItemViewModel> teamGames;
         private BitmapImage image;
         private readonly string teamId;
         public bool NotLoading => !loading;
-        
+
         #endregion
 
         #region Properties
+
         public MainViewModel MainViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
 
 
-        public BitmapImage TeamImage {
+        public BitmapImage TeamImage
+        {
             get => image;
-            set {
+            set
+            {
                 image = value;
                 OnPropertyChanged();
             }
         }
 
-        public Team Team {
+        public Team Team
+        {
             get => team;
-            set {
+            set
+            {
                 team = value;
                 OnPropertyChanged();
                 OpenAddPlayerToTeamDialog.RaiseCanExecuteChanged();
@@ -61,27 +65,22 @@ namespace ModernPlayerManager.ViewModels
         }
 
 
-        public ObservableCollection<EventListItemViewModel> TeamEvents {
-            get => teamEvents;
-            set {
-                teamEvents = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public ObservableCollection<GameListItemViewModel> TeamGames {
+        public ObservableCollection<GameListItemViewModel> TeamGames
+        {
             get => teamGames;
-            set {
+            set
+            {
                 teamGames = value;
                 OnPropertyChanged();
             }
         }
 
 
-        public bool Loading {
+        public bool Loading
+        {
             get => loading;
-            set {
+            set
+            {
                 loading = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NotLoading));
@@ -96,42 +95,102 @@ namespace ModernPlayerManager.ViewModels
             this.DeleteTeamCommand = new AsyncCommand(DeleteTeam, IsUserTeamManager);
             this.OpenEditTeamDialogCommand = new RelayCommand(UpdateTeamDialogCommand, IsUserTeamManager);
             this.NavigateToStatsCommand = new RelayCommand(NavigateToStats);
+            this.DeleteDiscrepancyCommand =
+                new AsyncCommandParams<Discrepancy>(DeleteDiscrepancy, DiscrepancyIsFromCurrentUser);
+            this.AddDiscrepancyCommand = new RelayCommandParams<Event>(AddDiscrepancy);
         }
 
+
         private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
+
+        private bool DiscrepancyIsFromCurrentUser(Discrepancy discrepancy) =>
+            AuthenticatedHttpClientHandler.UserId == discrepancy.UserId;
 
         #region Commands
 
         public AsyncCommand DeleteTeamCommand { get; private set; }
+        public AsyncCommandParams<Discrepancy> DeleteDiscrepancyCommand { get; private set; }
         public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
         public RelayCommand OpenEditTeamDialogCommand { get; private set; }
         public RelayCommand NavigateToStatsCommand { get; private set; }
+        public RelayCommandParams<Event> AddDiscrepancyCommand { get; private set; }
 
         #endregion
 
         #region Webservices
 
         public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
 
         public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+
+        public IDiscrepancyApi DiscrepancyApi = RestService.For<IDiscrepancyApi>(
+            new HttpClient(new AuthenticatedHttpClientHandler())
+                {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+
+        public IEventApi EventApi = RestService.For<IEventApi>(new HttpClient()
+            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
         #endregion
 
         #region Handlers
 
+        public async Task DeleteDiscrepancy(Discrepancy discrepancy) {
+            try {
+                await DiscrepancyApi.DeleteDiscrepancy(discrepancy.Id);
+                var evt = Team.Events.First(e => e.Discrepancies.Contains(discrepancy));
+                evt.Discrepancies.Remove(discrepancy);
+            }
+            catch (Exception e) {
+                var dialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await dialog.ShowAsync();
+            }
+        }
+
+
+        private async void AddDiscrepancy(Event evt) {
+            var dialog = new AddDiscrepancyDialog();
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary || dialog.ViewModel.Dto == null) {
+                return;
+            }
+
+            try {
+                await EventApi.CreateDiscrepancy(evt.Id, dialog.ViewModel.Dto);
+
+                // TODO : get the discrepancy infos from the api and insert it in the event
+            }
+            catch (Exception e) {
+                Debug.Print(e.Message);
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
+            
+        }
+
         public async void UpdateTeamDialogCommand() {
             var dialog = new EditTeamDialog(Team);
             await dialog.ShowAsync();
         }
-        
+
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
-                TeamEvents = new ObservableCollection<EventListItemViewModel>(Team.Events.Select(evt => new EventListItemViewModel(evt)));
-                TeamGames = new ObservableCollection<GameListItemViewModel>(Team.Games.Select(game => new GameListItemViewModel(game, Team.IsCurrentUserManager)));
+                TeamGames = new ObservableCollection<GameListItemViewModel>(Team.Games.Select(game =>
+                    new GameListItemViewModel(game, Team.IsCurrentUserManager)));
                 Loading = false;
 
                 Guid x;
@@ -139,7 +198,6 @@ namespace ModernPlayerManager.ViewModels
                     var httpContent = await FileApi.GetFile(Team.Image);
                     var bytes = await httpContent.ReadAsByteArrayAsync();
                     TeamImage = await GetBitmapAsync(bytes);
-
                 }
             }
             catch (Exception e) {
@@ -186,7 +244,7 @@ namespace ModernPlayerManager.ViewModels
 
         public async Task<BitmapImage> GetBitmapAsync(byte[] data) {
             var bitmapImage = new BitmapImage();
- 
+
             using (var stream = new InMemoryRandomAccessStream()) {
                 using (var writer = new DataWriter(stream)) {
                     writer.WriteBytes(data);
@@ -202,10 +260,10 @@ namespace ModernPlayerManager.ViewModels
             return bitmapImage;
         }
 
-        public async void AddPlayerToTeam() { 
+        public async void AddPlayerToTeam() {
             var dialog = new AddPlayerToTeamDialog(Team);
             var buttonClicked = await dialog.ShowAsync();
-            if(buttonClicked == ContentDialogResult.Primary) {
+            if (buttonClicked == ContentDialogResult.Primary) {
                 Team.Players.Add(dialog.ViewModel.SelectedUser);
             }
         }
@@ -213,7 +271,7 @@ namespace ModernPlayerManager.ViewModels
         public void NavigateToStats() {
             MainViewModel.ContentFrame.Navigate(typeof(StatsPage), Team.Id);
         }
-        #endregion
 
+        #endregion
     }
 }

@@ -36,6 +36,20 @@ namespace ModernPlayerManager.Pages
             ViewModel = new TeamViewModel(e.Parameter.ToString());
             await ViewModel.FetchTeam();
         }
+
+        private async void DeleteDiscrepancy(object sender, RoutedEventArgs e) {
+            var discrepancy = (sender as Button)?.DataContext as Discrepancy;
+            if(ViewModel.DeleteDiscrepancyCommand.CanExecute(discrepancy)) {
+                await ViewModel.DeleteDiscrepancyCommand.ExecuteAsync(discrepancy);
+            }
+        }
+
+        private void HandleClickAddDiscrepancy(object sender, RoutedEventArgs e) {
+            var evt = (sender as Button)?.DataContext as Event;
+            if(ViewModel.AddDiscrepancyCommand.CanExecute(evt)) {
+                ViewModel.AddDiscrepancyCommand.Execute(evt);
+            }
+        }
     }
 
 
