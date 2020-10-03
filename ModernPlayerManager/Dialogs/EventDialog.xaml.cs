@@ -21,18 +21,18 @@ namespace ModernPlayerManager.Dialogs
 {
     public sealed partial class EventDialog : ContentDialog
     {
-        public EventViewModel ViewModel { get; set; }
+        public EventDialogViewModel ViewModel { get; set; }
 
         public EventDialog(Event evt)
         {
             this.InitializeComponent();
-            ViewModel = new EventViewModel(evt);
+            ViewModel = new EventDialogViewModel(evt);
         }
 
-        private async void DeleteDiscrepancy(object sender, RoutedEventArgs e)
+        public EventDialog()
         {
-            var discrepancy = (sender as Button)?.DataContext as Discrepancy;
-            await ViewModel.DeleteDiscrepancy(discrepancy);
+            this.InitializeComponent();
+            ViewModel = new EventDialogViewModel();
         }
     }
 }

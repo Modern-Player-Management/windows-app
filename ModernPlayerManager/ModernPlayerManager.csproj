@@ -187,6 +187,7 @@
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
     <Compile Include="Services\DTO\UpdateTeamDTO.cs" />
     <Compile Include="Services\DTO\UpdateUserProfileDTO.cs" />
+    <Compile Include="Services\DTO\UpsertEventDTO.cs" />
     <Compile Include="ViewModels\DiscrepancyViewModel.cs" />
     <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
     <Compile Include="ViewModels\Commands\AsyncCommand.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="ViewModels\DiscrepancyListItemViewModel.cs" />
     <Compile Include="ViewModels\EditTeamViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
+    <Compile Include="ViewModels\EventDialogViewModel.cs" />
     <Compile Include="ViewModels\EventListItemViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\GameListItemViewModel.cs" />

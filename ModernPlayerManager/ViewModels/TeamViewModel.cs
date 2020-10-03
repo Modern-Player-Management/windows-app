@@ -99,6 +99,7 @@ namespace ModernPlayerManager.ViewModels
                 new AsyncCommandParams<Discrepancy>(DeleteDiscrepancy, DiscrepancyIsFromCurrentUser);
             this.AddDiscrepancyCommand = new RelayCommandParams<Event>(AddDiscrepancy);
             this.EditDiscrepancyCommand = new AsyncCommandParams<Discrepancy>(EditDiscrepancy);
+            this.AddEventCommand = new AsyncCommand(AddEvent);
         }
 
 
@@ -109,14 +110,14 @@ namespace ModernPlayerManager.ViewModels
 
         #region Commands
 
-        public AsyncCommand DeleteTeamCommand { get; private set; }
-        public AsyncCommandParams<Discrepancy> DeleteDiscrepancyCommand { get; private set; }
-        public AsyncCommandParams<Discrepancy> EditDiscrepancyCommand { get; private set; }
-        public RelayCommand OpenAddPlayerToTeamDialog { get; private set; }
-        public RelayCommand OpenEditTeamDialogCommand { get; private set; }
-        public RelayCommand NavigateToStatsCommand { get; private set; }
-        public RelayCommandParams<Event> AddDiscrepancyCommand { get; private set; }
-
+        public AsyncCommand DeleteTeamCommand { get; }
+        public AsyncCommandParams<Discrepancy> DeleteDiscrepancyCommand { get;  }
+        public AsyncCommandParams<Discrepancy> EditDiscrepancyCommand { get;  }
+        public RelayCommand OpenAddPlayerToTeamDialog { get; }
+        public RelayCommand OpenEditTeamDialogCommand { get;  }
+        public RelayCommand NavigateToStatsCommand { get; }
+        public RelayCommandParams<Event> AddDiscrepancyCommand { get; }
+        public AsyncCommand AddEventCommand { get; }
         #endregion
 
         #region Webservices
@@ -138,6 +139,34 @@ namespace ModernPlayerManager.ViewModels
         #endregion
 
         #region Handlers
+
+        public async Task AddEvent()
+        {
+            var dialog = new EventDialog();
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            try
+            {
+                var evt = await TeamApi.AddEventToTeam(this.Team.Id,dialog.ViewModel.EventDto);
+                Team.Events.Add(evt);
+            }
+            catch (Exception e)
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
+        }
+        
 
         public async Task DeleteDiscrepancy(Discrepancy discrepancy) {
             try {

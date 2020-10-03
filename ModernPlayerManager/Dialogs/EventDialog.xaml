@@ -8,109 +8,27 @@
     xmlns:models="using:ModernPlayerManager.Models"
     xmlns:converters="using:ModernPlayerManager.Converters"
     mc:Ignorable="d"
-    PrimaryButtonText="Close">
+    
+    PrimaryButtonText="Create"
+    SecondaryButtonText="Cancel"
+    >
 
-    <ContentDialog.Resources>
-        <converters:BooleanIconConverter x:Name="BooleanIconConverter"></converters:BooleanIconConverter>
-    </ContentDialog.Resources>
-
-    <StackPanel>
-        <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="24">
-            <TextBlock Text="{x:Bind ViewModel.Event.Name}" FontSize="36" />
-            <TextBlock Text="{x:Bind ViewModel.Event.Description}" />
-            <StackPanel Spacing="4" Orientation="Horizontal">
-                <TextBlock Text="{x:Bind ViewModel.Event.Start}" />
-                <TextBlock Text="-" />
-                <TextBlock Text="{x:Bind ViewModel.Event.End}" />
-            </StackPanel>
-
-            <TextBlock Text="{x:Bind ViewModel.Event.Type}" />
+    <StackPanel Spacing="16">
+        <StackPanel>
+            <TextBox Text="{x:Bind ViewModel.EventDto.Name, Mode=TwoWay}" Header="Name" PlaceholderText="Event name..." />
+            <TextBox Text="{x:Bind ViewModel.EventDto.Description, Mode=TwoWay}" Header="Description"
+                     PlaceholderText="Event description..." />
         </StackPanel>
-        <Grid Width="700" Margin="0,24,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="13*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="13*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Grid.Column="0" Padding="24">
-                <TextBlock FontSize="24" Text="Participations" />
-                <ListView ItemsSource="{x:Bind ViewModel.Event.Participations}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Participation">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="9*" />
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{x:Bind Username}" />
-                                <FontIcon Grid.Column="1" Glyph="{x:Bind Confirmed, Converter={StaticResource BooleanIconConverter}}"></FontIcon>
-                                
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+        <StackPanel Spacing="8">
+            <DatePicker Date="{x:Bind ViewModel.EventDto.Start.Date}" Header="Start Date" />
+            <TimePicker Time="{x:Bind ViewModel.EventDto.Start.TimeOfDay}" />
+        </StackPanel>
+        <StackPanel Spacing="8">
+            <DatePicker Date="{x:Bind ViewModel.EventDto.Start.Date}" Header="End Date" />
+            <TimePicker Time="{x:Bind ViewModel.EventDto.Start.TimeOfDay}" />
+        </StackPanel>
 
-            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Grid.Column="2" Padding="24">
-                <TextBlock FontSize="24" Text="Discrepancies" />
-                <Grid Margin="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Player" />
-                    <TextBlock Text="Type" Grid.Column="1"/>
-                    <TextBlock Text="Reason" Grid.Column="2"/>
-                    <TextBlock Text="Delay" Grid.Column="3"/>
-                </Grid>
-                    <ListView ItemsSource="{x:Bind ViewModel.Event.Discrepancies}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Discrepancy">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
-                            <TextBlock Text="{x:Bind Username}" />
-                            <TextBlock Text="{x:Bind Type}" Grid.Column="1"/>
-                            <TextBlock Text="{x:Bind Reason}" Grid.Column="2"/>
-                            <TextBlock Text="{x:Bind DelayLength}" Grid.Column="3"/>
-                            <Button Grid.Column="4" HorizontalAlignment="Right">
-                                <Button.Flyout>
-                                    <Flyout>
-                                        <StackPanel>
-                                            <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Are you sure ?" Margin="0,0,0,12" />
-                                                <Button Click="DeleteDiscrepancy" Content="Yes" />
-                                        </StackPanel>
-                                    </Flyout>
-                                </Button.Flyout>
-
-<StackPanel Spacing="8" Orientation="Horizontal">
-                                    <FontIcon Glyph="&#xE74D;" />
-                                </StackPanel>
-                            </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-        </Grid>
+        <ComboBox Width="300" SelectedItem="{x:Bind ViewModel.Type, Mode=TwoWay}" ItemsSource="{x:Bind ViewModel.TypeValues}" Header="Type" PlaceholderText="Pick a type"></ComboBox>
     </StackPanel>
 
 </ContentDialog>

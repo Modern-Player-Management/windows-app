@@ -35,5 +35,7 @@ namespace ModernPlayerManager.Services.API
         [Get("/api/Teams/{id}/stats")]
         Task<List<PlayersStat>> GetStats([AliasAs("id")] string teamId);
 
+        [Post("/api/Teams/{teamId}/events")]
+        Task<Event> AddEventToTeam([AliasAs("teamId")] string teamId,[Body] UpsertEventDTO dto);
     }
 }

@@ -30,6 +30,9 @@
                               Icon="Add" Label="Add Player" Command="{x:Bind ViewModel.OpenAddPlayerToTeamDialog}" />
                 <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Icon="Calendar" Label="Add An Event"  Command="{x:Bind ViewModel.AddEventCommand}"/>
+                <AppBarSeparator />
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Command="{x:Bind ViewModel.OpenEditTeamDialogCommand}"
                               Icon="Edit" Label="Edit this Team" />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
