@@ -25,6 +25,8 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
+        public string Title => Mode.ToString() + " Event";
+
         private Event.EventType type;
         public List<string> TypeValues => Enum.GetNames(typeof(Event.EventType)).ToList();
 

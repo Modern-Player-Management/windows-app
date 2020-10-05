@@ -18,6 +18,7 @@ using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
 using ModernPlayerManager.Services.API;
+using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
 using Refit;
 
@@ -100,8 +101,10 @@ namespace ModernPlayerManager.ViewModels
             this.AddDiscrepancyCommand = new RelayCommandParams<Event>(AddDiscrepancy);
             this.EditDiscrepancyCommand = new AsyncCommandParams<Discrepancy>(EditDiscrepancy);
             this.AddEventCommand = new AsyncCommand(AddEvent);
+            this.EditEventCommand = new AsyncCommandParams<Event>(EditEvent);
+            this.DeleteEventCommand = new AsyncCommandParams<Event>(DeleteEvent);
+            UpdateEventPresenceCommand = new AsyncCommandParams<Event>(EditPresence);
         }
-
 
         private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
 
@@ -118,6 +121,9 @@ namespace ModernPlayerManager.ViewModels
         public RelayCommand NavigateToStatsCommand { get; }
         public RelayCommandParams<Event> AddDiscrepancyCommand { get; }
         public AsyncCommand AddEventCommand { get; }
+        public AsyncCommandParams<Event> EditEventCommand { get; }
+        public AsyncCommandParams<Event> DeleteEventCommand { get; }
+        public AsyncCommandParams<Event> UpdateEventPresenceCommand { get; }
         #endregion
 
         #region Webservices
@@ -139,6 +145,69 @@ namespace ModernPlayerManager.ViewModels
         #endregion
 
         #region Handlers
+
+        public async Task DeleteEvent(Event evt)
+        {
+            await EventApi.DeleteEvent(evt.Id);
+            Team.Events.Remove(Team.Events.First(e => e.Id == evt.Id));
+        }
+
+        private async Task EditPresence(Event evt)
+        {
+            evt.Participations.First(p => p.UserId == AuthenticatedHttpClientHandler.UserId).Confirmed =
+                evt.CurrentHasConfirmed;
+            try
+            {
+                await EventApi.UpdatePresence(evt.Id,
+                    new EventPresenceDTO()
+                    {
+                        Present = evt.Participations.First(p => p.UserId == AuthenticatedHttpClientHandler.UserId).Confirmed
+                    });
+            }
+            catch (Exception e)
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
+        }
+
+        public async Task EditEvent(Event evt)
+        {
+            var dialog = new EventDialog(evt);
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                return;
+            }
+
+            try
+            {
+                var dto = dialog.ViewModel.EventDto;
+                await EventApi.UpdateEvent(evt.Id, dialog.ViewModel.EventDto);
+                evt.Name = dto.Name;
+                evt.Description = dto.Description;
+                evt.Start = dto.Start;
+                evt.End = dto.End;
+                evt.Type = dto.Type;
+
+            }
+            catch (Exception e)
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
+        }
 
         public async Task AddEvent()
         {

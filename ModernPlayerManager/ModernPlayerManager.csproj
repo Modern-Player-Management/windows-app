@@ -182,6 +182,7 @@
     <Compile Include="Services\API\ITeamApi.cs" />
     <Compile Include="Services\API\IUserApi.cs" />
     <Compile Include="Services\DTO\DiscrepancyDTO.cs" />
+    <Compile Include="Services\DTO\EventPresenceDTO.cs" />
     <Compile Include="Services\DTO\RegisterDTO.cs" />
     <Compile Include="Services\DTO\LoginDTO.cs" />
     <Compile Include="Services\DTO\LoggedUserDTO.cs" />
@@ -199,7 +200,6 @@
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\EventDialogViewModel.cs" />
     <Compile Include="ViewModels\EventListItemViewModel.cs" />
-    <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\GameListItemViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

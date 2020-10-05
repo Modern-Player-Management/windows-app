@@ -14,23 +14,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
 
     <Page.Resources>
-        <converters:BooleanIconConverter x:Name="BooleanIconConverter"></converters:BooleanIconConverter>
+        <converters:BooleanIconConverter x:Name="BooleanIconConverter" />
     </Page.Resources>
-    
+
     <Page.TopAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}" 
-                               Label="Team stats" Command="{x:Bind ViewModel.NavigateToStatsCommand}" >
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
+                              Label="Team stats" Command="{x:Bind ViewModel.NavigateToStatsCommand}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE9D2;" FontSize="28"/>
+                        <FontIcon Glyph="&#xE9D2;" FontSize="28" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Add" Label="Add Player" Command="{x:Bind ViewModel.OpenAddPlayerToTeamDialog}" />
                 <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
-                              Icon="Calendar" Label="Add An Event"  Command="{x:Bind ViewModel.AddEventCommand}"/>
+                              Icon="Calendar" Label="Add An Event" Command="{x:Bind ViewModel.AddEventCommand}" />
                 <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Command="{x:Bind ViewModel.OpenEditTeamDialogCommand}"
@@ -40,7 +40,7 @@
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.TopAppBar>
-    <ScrollViewer >
+    <ScrollViewer>
         <StackPanel Padding="32">
             <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
             <StackPanel Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}">
@@ -82,147 +82,185 @@
                             <FontIcon Glyph="&#xE787;" FontSize="24" />
                             <TextBlock Text="Events" FontSize="24" />
                         </StackPanel>
-                        <ListView Margin="0,24,0,0" ItemsSource="{x:Bind ViewModel.Team.Events, Mode=OneWay}">
+                        <ListView IsSwipeEnabled="False" Margin="0,24,0,0"
+                                  ItemsSource="{x:Bind ViewModel.Team.Events, Mode=OneWay}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Event">
                                     <controls:Expander
-                                        HorizontalContentAlignment="Left"
+                                        HorizontalContentAlignment="Stretch"
                                         Header="{x:Bind Name, Mode=OneWay}"
-                                        ExpandDirection="Down"
-                                    >
-                                        <StackPanel HorizontalAlignment="Left" Padding="24">
-                                            <TextBlock Text="{x:Bind Name}" FontSize="36" />
-                                            <TextBlock Text="{x:Bind Description}" />
-                                            <StackPanel Spacing="4" Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind Start}" />
-                                                <TextBlock Text="-" />
-                                                <TextBlock Text="{x:Bind End}" />
+                                        ExpandDirection="Down">
+                                        <Grid ColumnSpacing="16" RowSpacing="16" HorizontalAlignment="Stretch" Padding="24">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontSize="36" />
+                                                <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
+                                                <StackPanel Spacing="4" Orientation="Horizontal">
+                                                    <TextBlock Text="{x:Bind Start, Mode=OneWay}" />
+                                                    <TextBlock Text="-" />
+                                                    <TextBlock Text="{x:Bind End, Mode=OneWay}" />
+                                                </StackPanel>
+                                                <TextBlock Text="{x:Bind Type, Mode=OneWay}" />
                                             </StackPanel>
 
-                                            <TextBlock Text="{x:Bind Type}" />
-                                            <Grid Width="1000" Margin="0,24,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="13*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="13*" />
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock FontSize="24" Text="Participations" />
-                                                    <ListView ItemsSource="{x:Bind Participations}">
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate x:DataType="models:Participation">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="9*" />
-                                                                        <ColumnDefinition Width="1*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="{x:Bind Username}" />
-                                                                    <FontIcon Grid.Column="1" Glyph="{x:Bind Confirmed, Converter={StaticResource BooleanIconConverter}}"></FontIcon>
+                                            <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
+                                                <ToggleSwitch OnContent="Present" OffContent="Absent" IsOn="{x:Bind CurrentHasConfirmed, Mode=OneWay}" Toggled="HandleTogglePresence" />
+                                            </StackPanel>
 
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </ListView>
-                                                </StackPanel>
 
-                                                <StackPanel Grid.Column="2">
-                                                    <TextBlock FontSize="24" Text="Discrepancies" />
-                                                    <Grid Margin="8">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="2*" />
-                                                            <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="1*" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Player" />
-                                                        <TextBlock Text="Type" Grid.Column="1"/>
-                                                        <TextBlock Text="Reason" Grid.Column="2"/>
-                                                        <TextBlock Text="Delay" Grid.Column="3"/>
-                                                    </Grid>
-                                                    <ListView ItemsSource="{x:Bind Discrepancies}">
-                                                        <ListView.ItemContainerStyle>
-                                                            <Style TargetType="ListViewItem">
-                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                            </Style>
-                                                        </ListView.ItemContainerStyle>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate x:DataType="models:Discrepancy">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="1*" />
-                                                                        <ColumnDefinition Width="1*" />
-                                                                        <ColumnDefinition Width="2*" />
-                                                                        <ColumnDefinition Width="1*" />
-                                                                        <ColumnDefinition Width="1*" />
-                                                                        <ColumnDefinition Width="1*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="{x:Bind Username}" />
-                                                                    <TextBlock Text="{x:Bind Type}" Grid.Column="1"/>
-                                                                    <TextBlock Text="{x:Bind Reason}" Grid.Column="2"/>
-                                                                    <TextBlock Text="{x:Bind DelayLength}" Grid.Column="3"/>
-                                                                    <Button Grid.Column="4" Click="EditDiscrepancy" HorizontalAlignment="Right">
-                                                                        <StackPanel Spacing="8" Orientation="Horizontal">
-                                                                            <FontIcon Glyph="&#xE70F;" />
-                                                                        </StackPanel>
-                                                                    </Button>
-                                                                    <Button Grid.Column="5" HorizontalAlignment="Right">
-                                                                        <Button.Flyout>
-                                                                            <Flyout>
-                                                                                <StackPanel>
-                                                                                    <TextBlock Style="{ThemeResource BaseTextBlockStyle}" Text="Are you sure ?" Margin="0,0,0,12" />
-                                                                                    <Button Click="DeleteDiscrepancy" Content="Yes" />
-                                                                                </StackPanel>
-                                                                            </Flyout>
-                                                                        </Button.Flyout>
+                                            <controls:DockPanel Grid.Column="0" Grid.Row="1">
+                                                <TextBlock controls:DockPanel.Dock="Top"  FontSize="24" Text="Participations" />
+                                                <ListView ItemsSource="{x:Bind Participations, Mode=OneWay}">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment"
+                                                                    Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:Participation">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="9*" />
+                                                                    <ColumnDefinition Width="1*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="{x:Bind Username}" />
+                                                                <FontIcon Grid.Column="1"
+                                                                          Glyph="{x:Bind Confirmed, Converter={StaticResource BooleanIconConverter}, Mode=OneWay}" />
 
-                                                                        <StackPanel Spacing="8" Orientation="Horizontal">
-                                                                            <FontIcon Glyph="&#xE74D;" />
-                                                                        </StackPanel>
-                                                                    </Button>
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </ListView>
-                                                </StackPanel>
-                                            </Grid>
-                                            <StackPanel Spacing="16" Orientation="Horizontal" FlowDirection="RightToLeft">
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </controls:DockPanel>
+
+                                            <StackPanel Grid.Column="2" Grid.Row="1">
+                                                <TextBlock FontSize="24" Text="Discrepancies" />
+                                                <Grid Margin="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="2*" />
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="1*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Player" />
+                                                    <TextBlock Text="Type" Grid.Column="1" />
+                                                    <TextBlock Text="Reason" Grid.Column="2" />
+                                                    <TextBlock Text="Delay" Grid.Column="3" />
+                                                </Grid>
+                                                <ListView ItemsSource="{x:Bind Discrepancies}">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment"
+                                                                    Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:Discrepancy">
+                                                            <Grid HorizontalAlignment="Stretch">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="2*" />
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="1*" />
+                                                                    <ColumnDefinition Width="1*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="{x:Bind Username}" />
+                                                                <TextBlock Text="{x:Bind Type}" Grid.Column="1" />
+                                                                <TextBlock Text="{x:Bind Reason}" Grid.Column="2" />
+                                                                <TextBlock Text="{x:Bind DelayLength}"
+                                                                           Grid.Column="3" />
+                                                                <Button Grid.Column="4" Click="EditDiscrepancy"
+                                                                        HorizontalAlignment="Right">
+                                                                    <StackPanel Spacing="8"
+                                                                        Orientation="Horizontal">
+                                                                        <FontIcon Glyph="&#xE70F;" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                                <Button Grid.Column="5" HorizontalAlignment="Right">
+                                                                    <Button.Flyout>
+                                                                        <Flyout>
+                                                                            <StackPanel>
+                                                                                <TextBlock
+                                                                                    Style="{ThemeResource BaseTextBlockStyle}"
+                                                                                    Text="Are you sure ?"
+                                                                                    Margin="0,0,0,12" />
+                                                                                <Button Click="DeleteDiscrepancy"
+                                                                                    Content="Yes" />
+                                                                            </StackPanel>
+                                                                        </Flyout>
+                                                                    </Button.Flyout>
+
+                                                                    <StackPanel Spacing="8"
+                                                                        Orientation="Horizontal">
+                                                                        <FontIcon Glyph="&#xE74D;" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="2" Grid.Column="2" Spacing="16" Orientation="Horizontal"
+                                                        FlowDirection="RightToLeft">
                                                 <Button Click="HandleClickAddDiscrepancy">
                                                     <StackPanel Spacing="8" Orientation="Horizontal">
-                                                        <TextBlock Text="Add Discrepancy"></TextBlock>
-                                                        <FontIcon Glyph="&#xE710;"/>
+                                                        <TextBlock Text="Add Discrepancy" />
+                                                        <FontIcon Glyph="&#xE710;" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Click="HandleClickEditEvent">
+                                                    <StackPanel Spacing="8" Orientation="Horizontal">
+                                                        <TextBlock Text="Edit Event" />
+                                                        <FontIcon Glyph="&#xE70F;" />
                                                     </StackPanel>
                                                 </Button>
                                                 <Button>
+                                                    <Button.Flyout>
+                                                        <Flyout>
+                                                            <StackPanel>
+                                                                <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                                                                           Text="Delete this Event ?" Margin="0,0,0,12" />
+                                                                <Button Click="HandleClickDeleteEvent" Content="Yes" />
+                                                            </StackPanel>
+                                                        </Flyout>
+                                                    </Button.Flyout>
+
                                                     <StackPanel Spacing="8" Orientation="Horizontal">
-                                                        <TextBlock Text="Edit Event"></TextBlock>
-                                                        <FontIcon Glyph="&#xE70F;"/>
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button>
-                                                    <StackPanel Spacing="8" Orientation="Horizontal">
-                                                        <TextBlock Text="Delete Event"></TextBlock>
-                                                        <FontIcon Glyph="&#xE74D;"/>
+                                                        <TextBlock Text="Delete Event" />
+                                                        <FontIcon Glyph="&#xE74D;" />
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
-                                        </StackPanel>
+                                        </Grid>
 
                                     </controls:Expander>
-                                        
 
-                                    
 
                                 </DataTemplate>
 
@@ -252,15 +290,17 @@
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
-                                       
+
                                         <TextBlock Margin="0,4,0,0" Text="{x:Bind Game.Name, Mode=OneWay}" />
-                                    
-                                        <Button Command="{x:Bind DeleteGameCommand}"  Grid.Column="1" HorizontalAlignment="Right">
+
+                                        <Button Command="{x:Bind DeleteGameCommand}" Grid.Column="1"
+                                                HorizontalAlignment="Right">
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE74D;" />
                                             </StackPanel>
                                         </Button>
-                                        <Button Command="{x:Bind ShowGameDetailsCommand}"  Grid.Column="2" HorizontalAlignment="Right">
+                                        <Button Command="{x:Bind ShowGameDetailsCommand}" Grid.Column="2"
+                                                HorizontalAlignment="Right">
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE7B3;" />
                                             </StackPanel>

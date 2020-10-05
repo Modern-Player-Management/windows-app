@@ -9,7 +9,7 @@
     xmlns:converters="using:ModernPlayerManager.Converters"
     mc:Ignorable="d"
     
-    PrimaryButtonText="Create"
+    PrimaryButtonText="{x:Bind ViewModel.Title}"
     SecondaryButtonText="Cancel"
     >
 

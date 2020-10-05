@@ -59,6 +59,35 @@ namespace ModernPlayerManager.Pages
                 ViewModel.AddDiscrepancyCommand.Execute(evt);
             }
         }
+
+        private void HandleClickEditEvent(object sender, RoutedEventArgs e)
+        {
+            var evt = (sender as Button)?.DataContext as Event;
+            if (ViewModel.EditEventCommand.CanExecute(evt))
+            {
+                ViewModel.EditEventCommand.ExecuteAsync(evt);
+            }
+        }
+
+        private void HandleClickDeleteEvent(object sender, RoutedEventArgs e)
+        {
+            var evt = (sender as Button)?.DataContext as Event;
+            if (ViewModel.DeleteEventCommand.CanExecute(evt))
+            {
+                ViewModel.DeleteEventCommand.ExecuteAsync(evt);
+            }
+        }
+
+        private void HandleTogglePresence(object sender, RoutedEventArgs e)
+        {
+            var toggle = (sender as ToggleSwitch);
+            var evt = toggle?.DataContext as Event;
+            if (ViewModel.UpdateEventPresenceCommand.CanExecute(evt) && evt != null)
+            {
+                evt.CurrentHasConfirmed = toggle.IsOn;
+                ViewModel.UpdateEventPresenceCommand.ExecuteAsync(evt);
+            }
+        }
     }
 
 
