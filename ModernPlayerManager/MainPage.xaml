@@ -19,8 +19,13 @@
     <muxc:NavigationView IsSettingsVisible="False" SelectionChanged="NavigationView_OnSelectionChanged" MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
         <muxc:NavigationView.PaneFooter>
             <StackPanel>
-            <muxc:NavigationViewItem Tapped="AddTeam_OnTapped" Icon="Add" Content="Add Team" />
+                <muxc:NavigationViewItem Tapped="AddTeam_OnTapped" Icon="Add" Content="Add Team" />
                 <muxc:NavigationViewItem Tapped="UserProfile_OnTapped" Icon="Contact" Content="User Profile" />
+                <muxc:NavigationViewItem Tapped="LogOut" Content="Log Out">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA62;" FontSize="28" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
             </StackPanel>
         </muxc:NavigationView.PaneFooter>
         <Frame x:Name="contentFrame"/>

@@ -43,5 +43,14 @@ namespace ModernPlayerManager.ViewModels
                 Teams.Add(dialog.Team);
             }
         }
+
+        public void LogOut()
+        {
+            var vault = new Windows.Security.Credentials.PasswordVault();
+            var credentialList = vault.FindAllByResource("Modern Player Manager");
+            var credential = credentialList[0];
+            vault.Remove(credential);
+            (Window.Current.Content as Frame)?.Navigate(typeof(LoginPage));
+        }
     }
 }

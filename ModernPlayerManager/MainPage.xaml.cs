@@ -56,5 +56,10 @@ namespace ModernPlayerManager
         private void UserProfile_OnTapped(object sender, TappedRoutedEventArgs e) {
             ViewModel.NavigateToUserProfile();
         }
+
+        private void LogOut(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.LogOut();
+        }
     }
 }

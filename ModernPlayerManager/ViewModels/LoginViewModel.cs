@@ -50,8 +50,10 @@ namespace ModernPlayerManager.ViewModels
         public LoginViewModel() {
             ClickLoginCommand = new RelayCommand(Login, CanLogin);
             NavigateToRegisterCommand = new RelayCommand(NavigateToRegister, () => true);
+            CheckStoredCredentials();
         }
 
+        public bool RememberMe { get; set; }
         public bool CanLogin() => Username?.Length > 0 && Password?.Length > 0;
 
         public bool Loading
@@ -67,9 +69,33 @@ namespace ModernPlayerManager.ViewModels
 
         public bool NotLoading => !loading;
 
+        public void CheckStoredCredentials()
+        {
+            try
+            {
+                var vault = new Windows.Security.Credentials.PasswordVault();
+                var credentialList = vault.FindAllByResource("Modern Player Manager");
+
+                if (credentialList.Count == 0)
+                {
+                    return;
+                }
+
+                var credential = credentialList[0];
+                credential.RetrievePassword();
+                Username = credential.UserName;
+                Password = credential.Password;
+
+                Login();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         public async void Login() {
             Loading = true;
-
             var api = RestService.For<ILoginApi>(new HttpClient()
                 {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
@@ -79,6 +105,14 @@ namespace ModernPlayerManager.ViewModels
                 var loggedUser = await api.Login(dto);
                 AuthenticatedHttpClientHandler.Token = loggedUser.Token;
                 AuthenticatedHttpClientHandler.UserId = loggedUser.Id;
+
+                if (RememberMe)
+                {
+                    var vault = new Windows.Security.Credentials.PasswordVault();
+                    vault.Add(new Windows.Security.Credentials.PasswordCredential(
+                        "Modern Player Manager", Username, Password));
+                }
+
                 (Window.Current.Content as Frame)?.Navigate(typeof(MainPage));
             }
             catch (Exception e) {
