@@ -32,6 +32,12 @@
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Icon="Calendar" Label="Add An Event" Command="{x:Bind ViewModel.AddEventCommand}" />
                 <AppBarSeparator />
+                <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}" Label="Add A Game" Command="{x:Bind ViewModel.UploadGameCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE7FC;" FontSize="28" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator />
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Command="{x:Bind ViewModel.OpenEditTeamDialogCommand}"
                               Icon="Edit" Label="Edit this Team" />
@@ -276,14 +282,14 @@
                         </StackPanel>
                         <ListView Margin="0,32,0,0"
 
-                                  ItemsSource="{x:Bind ViewModel.TeamGames, Mode=OneWay}" SelectionMode="Single">
+                                  ItemsSource="{x:Bind ViewModel.Team.Games, Mode=OneWay}" SelectionMode="Single">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="viewModels:GameListItemViewModel">
+                                <DataTemplate x:DataType="models:Game">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="8*" />
@@ -291,15 +297,27 @@
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Margin="0,4,0,0" Text="{x:Bind Game.Name, Mode=OneWay}" />
+                                        <TextBlock Margin="0,4,0,0" Text="{x:Bind Name, Mode=OneWay}" />
 
-                                        <Button Command="{x:Bind DeleteGameCommand}" Grid.Column="1"
+                                        <Button   Grid.Column="1"
                                                 HorizontalAlignment="Right">
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <TextBlock
+                                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                                            Text="Are you sure ?"
+                                                            Margin="0,0,0,12" />
+                                                        <Button Click="HandleDeleteGame"
+                                                                Content="Yes" />
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE74D;" />
                                             </StackPanel>
                                         </Button>
-                                        <Button Command="{x:Bind ShowGameDetailsCommand}" Grid.Column="2"
+                                        <Button Click="HandleShowGameDetails" Grid.Column="2"
                                                 HorizontalAlignment="Right">
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE7B3;" />
@@ -338,6 +356,18 @@
 
                                         <TextBlock Margin="0,4,0,0" Text="{x:Bind Username, Mode=OneWay}" />
                                         <Button Grid.Column="1" HorizontalAlignment="Right">
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <TextBlock
+                                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                                            Text="Are you sure ?"
+                                                            Margin="0,0,0,12" />
+                                                        <Button Click="HandleRemovePlayer"
+                                                                Content="Yes" />
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
                                             <StackPanel Spacing="8" Orientation="Horizontal">
                                                 <FontIcon Glyph="&#xE74D;" />
                                             </StackPanel>

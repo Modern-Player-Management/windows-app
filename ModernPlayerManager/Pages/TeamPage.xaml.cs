@@ -88,6 +88,33 @@ namespace ModernPlayerManager.Pages
                 ViewModel.UpdateEventPresenceCommand.ExecuteAsync(evt);
             }
         }
+
+        private void HandleRemovePlayer(object sender, RoutedEventArgs e)
+        {
+            var player = (sender as Button)?.DataContext as User;
+            if (ViewModel.RemovePlayerCommand.CanExecute(player) && player != null)
+            {
+                ViewModel.RemovePlayerCommand.ExecuteAsync(player);
+            }
+        }
+
+        private void HandleDeleteGame(object sender, RoutedEventArgs e)
+        {
+            var game = (sender as Button)?.DataContext as Game;
+            if (ViewModel.DeleteGameCommand.CanExecute(game) && game != null)
+            {
+                ViewModel.DeleteGameCommand.ExecuteAsync(game);
+            }
+        }
+
+        private void HandleShowGameDetails(object sender, RoutedEventArgs e)
+        {
+            var game = (sender as Button)?.DataContext as Game;
+            if (ViewModel.ShowGameDetailsCommand.CanExecute(game) && game != null)
+            {
+                ViewModel.ShowGameDetailsCommand.ExecuteAsync(game);
+            }
+        }
     }
 
 

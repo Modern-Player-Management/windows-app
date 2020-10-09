@@ -178,6 +178,7 @@
     <Compile Include="Services\API\IDiscrepancyApi.cs" />
     <Compile Include="Services\API\IEventApi.cs" />
     <Compile Include="Services\API\IFileApi.cs" />
+    <Compile Include="Services\API\IGameApi.cs" />
     <Compile Include="Services\API\ILoginApi.cs" />
     <Compile Include="Services\API\ITeamApi.cs" />
     <Compile Include="Services\API\IUserApi.cs" />
@@ -199,8 +200,6 @@
     <Compile Include="ViewModels\EditTeamViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\EventDialogViewModel.cs" />
-    <Compile Include="ViewModels\EventListItemViewModel.cs" />
-    <Compile Include="ViewModels\GameListItemViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

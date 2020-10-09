@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
@@ -37,5 +38,11 @@ namespace ModernPlayerManager.Services.API
 
         [Post("/api/Teams/{teamId}/events")]
         Task<Event> AddEventToTeam([AliasAs("teamId")] string teamId,[Body] UpsertEventDTO dto);
+
+        [Delete("/api/Teams/{teamId}/player/{playerId}")]
+        Task RemovePlayer(string teamId, string playerId);
+        [Multipart]
+        [Post("/api/Teams/{teamId}/games")]
+        Task<Game> UploadGame([AliasAs("file")] ByteArrayPart bytes, string teamId);
     }
 }

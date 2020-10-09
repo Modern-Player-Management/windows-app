@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -30,7 +32,6 @@ namespace ModernPlayerManager.ViewModels
 
         private Team team;
         private bool loading = true;
-        private ObservableCollection<GameListItemViewModel> teamGames;
         private BitmapImage image;
         private readonly string teamId;
         public bool NotLoading => !loading;
@@ -66,17 +67,6 @@ namespace ModernPlayerManager.ViewModels
         }
 
 
-        public ObservableCollection<GameListItemViewModel> TeamGames
-        {
-            get => teamGames;
-            set
-            {
-                teamGames = value;
-                OnPropertyChanged();
-            }
-        }
-
-
         public bool Loading
         {
             get => loading;
@@ -103,7 +93,11 @@ namespace ModernPlayerManager.ViewModels
             this.AddEventCommand = new AsyncCommand(AddEvent);
             this.EditEventCommand = new AsyncCommandParams<Event>(EditEvent);
             this.DeleteEventCommand = new AsyncCommandParams<Event>(DeleteEvent);
-            UpdateEventPresenceCommand = new AsyncCommandParams<Event>(EditPresence);
+            this.UpdateEventPresenceCommand = new AsyncCommandParams<Event>(EditPresence);
+            this.RemovePlayerCommand = new AsyncCommandParams<User>(RemovePlayer);
+            this.UploadGameCommand = new AsyncCommand(AddGame);
+            this.ShowGameDetailsCommand = new AsyncCommandParams<Game>(ShowGameDetails);
+            this.DeleteGameCommand = new AsyncCommandParams<Game>(DeleteGame);
         }
 
         private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
@@ -124,6 +118,11 @@ namespace ModernPlayerManager.ViewModels
         public AsyncCommandParams<Event> EditEventCommand { get; }
         public AsyncCommandParams<Event> DeleteEventCommand { get; }
         public AsyncCommandParams<Event> UpdateEventPresenceCommand { get; }
+        public AsyncCommandParams<User> RemovePlayerCommand { get; }
+        public AsyncCommand UploadGameCommand { get; }
+        public AsyncCommandParams<Game> ShowGameDetailsCommand { get; }
+        public AsyncCommandParams<Game> DeleteGameCommand { get; }
+
         #endregion
 
         #region Webservices
@@ -142,9 +141,82 @@ namespace ModernPlayerManager.ViewModels
         public IEventApi EventApi = RestService.For<IEventApi>(new HttpClient(new AuthenticatedHttpClientHandler())
             {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
 
+        public IGameApi GameApi = RestService.For<IGameApi>(new HttpClient(new AuthenticatedHttpClientHandler())
+            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+
+
+
         #endregion
 
         #region Handlers
+
+        public async Task ShowGameDetails(Game game)
+        {
+            var dialog = new GameDialog(game);
+            await dialog.ShowAsync();
+        }
+
+        public async Task DeleteGame(Game game)
+        {
+            await GameApi.DeleteGame(game.Id);
+            Team.Games.Remove(game);
+        }
+
+        public async Task AddGame()
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            picker.FileTypeFilter.Add(".replay");
+            var file = await picker.PickSingleFileAsync();
+            if (file == null)
+            {
+                return;
+            }
+
+            var stream = await file.OpenStreamForReadAsync();
+            using (var ms = new MemoryStream())
+            {
+                await stream.CopyToAsync(ms);
+
+                try
+                {
+                    var newGame = await TeamApi.UploadGame(new ByteArrayPart(ms.ToArray(), file.Name), Team.Id);
+                    Team.Games.Add(newGame);
+                }
+                catch (Exception e)
+                {
+                    var errorDialog = new ContentDialog
+                    {
+                        Title = "Error",
+                        Content = e.Message,
+                        CloseButtonText = "Ok"
+                    };
+                    await errorDialog.ShowAsync();
+                }
+            }
+        }
+
+        public async Task RemovePlayer(User player)
+        {
+            try
+            {
+                await TeamApi.RemovePlayer(Team.Id, player.Id);
+                await FetchTeam();
+            }
+            catch (Exception e)
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = e.Message,
+                    CloseButtonText = "Ok"
+                };
+                await errorDialog.ShowAsync();
+            }
+        }
 
         public async Task DeleteEvent(Event evt)
         {
@@ -325,8 +397,6 @@ namespace ModernPlayerManager.ViewModels
         public async Task FetchTeam() {
             try {
                 Team = await TeamApi.GetTeam(teamId);
-                TeamGames = new ObservableCollection<GameListItemViewModel>(Team.Games.Select(game =>
-                    new GameListItemViewModel(game, Team.IsCurrentUserManager)));
                 Loading = false;
 
                 Guid x;
