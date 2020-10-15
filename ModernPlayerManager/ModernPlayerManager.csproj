@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ModernPlayerManager</RootNamespace>
     <AssemblyName>ModernPlayerManager</AssemblyName>
-    <DefaultLanguage>fr-FR</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -216,7 +216,34 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\logo.png" />
+    <Content Include="Assets.scale-100.png" />
+    <Content Include="Assets.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Assets\.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\.scale-100.png" />
+    <Content Include="Assets\.scale-125.png" />
+    <Content Include="Assets\.scale-150.png" />
+    <Content Include="Assets\.scale-200.png" />
+    <Content Include="Assets\.scale-400.png" />
+    <Content Include="Assets\.targetsize-16.png" />
+    <Content Include="Assets\.targetsize-24.png" />
+    <Content Include="Assets\.targetsize-256.png" />
+    <Content Include="Assets\.targetsize-32.png" />
+    <Content Include="Assets\.targetsize-48.png" />
+    <Content Include="Assets\logo.scale-200.png" />
+    <Content Include="Assets\logo.scale-400.png" />
+    <Content Include="Assets\splash_screen_1240x600.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

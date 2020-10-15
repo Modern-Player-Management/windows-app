@@ -4,4 +4,7 @@
     <DeviceId>30f105c9-681e-420b-a277-7c086ead8a4e</DeviceId>
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
+  <PropertyGroup>
+    <AppIconSource>C:\Users\arsen\git\windows-app\ModernPlayerManager\Assets\Square44x44Logo.scale-200.png</AppIconSource>
+  </PropertyGroup>
 </Project>

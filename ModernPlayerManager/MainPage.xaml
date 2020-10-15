@@ -8,15 +8,32 @@
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:models="using:ModernPlayerManager.Models"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:media="using:Microsoft.UI.Xaml.Media"
+    Background="{ThemeResource SystemControlAcrylicElementBrush}">
 
     <Page.Resources>
         <DataTemplate x:Key="TeamTemplate" x:DataType="models:Team">
             <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}" Tag="{x:Bind Id, Mode=OneWay}" />
         </DataTemplate>
+        <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                      BackgroundSource="Backdrop" TintColor="{ThemeResource SystemChromeMediumColor}" TintOpacity=".5"/>
+        <AcrylicBrush x:Key="NavigationViewTopPaneBackground"
+                      BackgroundSource="Backdrop" TintColor="{ThemeResource SystemChromeMediumColor}" TintOpacity=".5"/>
+        <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
+                      BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeMediumColor}" TintOpacity=".7"/>
+
     </Page.Resources>
 
     <muxc:NavigationView IsSettingsVisible="False" SelectionChanged="NavigationView_OnSelectionChanged" MenuItemTemplate="{StaticResource TeamTemplate}" MenuItemsSource="{x:Bind ViewModel.Teams, Mode=OneWay}">
+        <muxc:NavigationView.PaneHeader>
+            <muxc:NavigationViewItem>
+                <StackPanel>
+                <TextBlock Text="Modern Player Manager" HorizontalAlignment="Center"></TextBlock>
+                    <Image Source="/Assets/logo.png"
+                           HorizontalAlignment="Center" Height="150" Width="150"></Image>
+                </StackPanel>
+            </muxc:NavigationViewItem>
+        </muxc:NavigationView.PaneHeader>
         <muxc:NavigationView.PaneFooter>
             <StackPanel>
                 <muxc:NavigationViewItem Tapped="AddTeam_OnTapped" Icon="Add" Content="Add Team" />

@@ -16,9 +16,14 @@
     <Page.Resources>
         <converters:BooleanIconConverter x:Name="BooleanIconConverter" />
     </Page.Resources>
+    <Grid>
 
-    <Page.TopAppBar>
-        <CommandBar>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <CommandBar OverflowButtonVisibility="Collapsed">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Style="{StaticResource AppBarButtonRevealStyle}"
                               Label="Team stats" Command="{x:Bind ViewModel.NavigateToStatsCommand}">
@@ -45,9 +50,9 @@
                               Icon="Delete" Command="{x:Bind ViewModel.DeleteTeamCommand}" Label="Delete this Team" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
-    </Page.TopAppBar>
-    <ScrollViewer>
-        <StackPanel Padding="32">
+
+    <ScrollViewer Grid.Row="1">
+        <StackPanel Padding="32" Margin="0,-32,0,0">
             <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
             <StackPanel Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}">
                 <Grid>
@@ -385,4 +390,5 @@
             <!-- <controls:InAppNotification x:Name="Notification" /> -->
         </StackPanel>
     </ScrollViewer>
+    </Grid>
 </Page>
