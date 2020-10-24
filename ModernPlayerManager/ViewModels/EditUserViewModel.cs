@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -29,8 +30,7 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public IUserApi UserApi = RestService.For<IUserApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public IUserApi UserApi = RestService.For<IUserApi>(MpmHttpClient.Instance);
 
 
         public AsyncCommand UpdateCommand { get; set; }

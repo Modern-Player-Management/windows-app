@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using Refit;
 
@@ -19,10 +20,7 @@ namespace ModernPlayerManager.ViewModels
     {
         public ObservableCollection<Team> Teams { get; set; } = new ObservableCollection<Team>();
 
-        public Team SelectedTeamViewModel { get; set; }
-
-        public ITeamApi Api = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public ITeamApi Api = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
         public Frame ContentFrame { get;  set; }
 

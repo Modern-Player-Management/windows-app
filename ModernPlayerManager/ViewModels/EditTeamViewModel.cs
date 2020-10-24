@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -26,8 +27,7 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public ITeamApi TeamApi = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
 
         public EditTeamViewModel(Team team) {

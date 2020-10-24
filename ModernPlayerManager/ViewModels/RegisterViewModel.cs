@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ModernPlayerManager.Pages;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -81,7 +82,7 @@ namespace ModernPlayerManager.ViewModels
         public async void Register() {
             Loading = true;
 
-            var api = RestService.For<ILoginApi>(new HttpClient() { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+            var api = RestService.For<ILoginApi>(MpmHttpClient.Instance);
 
             var dto = new RegisterDTO() { Username = this.Username, Password = this.Password, Email = this.Email};
 

@@ -174,7 +174,7 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\API\AuthenticatedHttpClientHandler.cs" />
+    <Compile Include="Services\API\AuthenticationManager.cs" />
     <Compile Include="Services\API\IDiscrepancyApi.cs" />
     <Compile Include="Services\API\IEventApi.cs" />
     <Compile Include="Services\API\IFileApi.cs" />
@@ -190,6 +190,7 @@
     <Compile Include="Services\DTO\UpdateTeamDTO.cs" />
     <Compile Include="Services\DTO\UpdateUserProfileDTO.cs" />
     <Compile Include="Services\DTO\UpsertEventDTO.cs" />
+    <Compile Include="Services\MpmHttpClient.cs" />
     <Compile Include="ViewModels\DiscrepancyViewModel.cs" />
     <Compile Include="ViewModels\AddPlayerToTeamViewModel.cs" />
     <Compile Include="ViewModels\Commands\AsyncCommand.cs" />

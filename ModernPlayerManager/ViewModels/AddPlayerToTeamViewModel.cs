@@ -13,6 +13,8 @@ using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
 using Refit;
+using Windows.Storage;
+using ModernPlayerManager.Services;
 
 namespace ModernPlayerManager.ViewModels
 {
@@ -46,10 +48,8 @@ namespace ModernPlayerManager.ViewModels
         public RelayCommand SearchUserCommand { get; private set; }
         public RelayCommand AddUserCommand { get; private set; }
         public ObservableCollection<User> SearchResult { get; set; } = new ObservableCollection<User>();
-        public IUserApi UserApi = RestService.For<IUserApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
-        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public IUserApi UserApi = RestService.For<IUserApi>(MpmHttpClient.Instance);
+        public ITeamApi TeamApi = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
 
         public AddPlayerToTeamViewModel(Team team) {

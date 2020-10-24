@@ -11,7 +11,7 @@ namespace ModernPlayerManager.Services.API
 {
 
 
-    public class AuthenticatedHttpClientHandler : HttpClientHandler
+    public class AuthenticationManager : HttpClientHandler
     {
         public static string Token { get; set; }
         public static string UserId { get; set; }

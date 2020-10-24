@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using Refit;
 
@@ -22,7 +23,7 @@ namespace ModernPlayerManager.Dialogs
     public sealed partial class CreateTeamDialog : ContentDialog
     {
         public Team Team { get; set; } = new Team();
-        public ITeamApi Api = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler()) { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public ITeamApi Api = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
         public CreateTeamDialog()
         {

@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Microcharts;
 using Microcharts.Uwp;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using Refit;
 using SkiaSharp;
@@ -85,8 +86,7 @@ namespace ModernPlayerManager.ViewModels
         }
 
 
-        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public ITeamApi TeamApi = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
         private readonly string teamId;
         private readonly ChartView scoreChartView;

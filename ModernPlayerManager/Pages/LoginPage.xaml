@@ -12,11 +12,13 @@
     <StackPanel VerticalAlignment="Center">
         <Image Source="/Assets/logo.png" Height="300" />
         <TextBlock TextAlignment="Center" Text="Login"></TextBlock>
+        <TextBox Visibility="{x:Bind ViewModel.AskBackendUrl, Mode=OneWay}" Text="{x:Bind ViewModel.BackendUrl, Mode=TwoWay}" Margin="0,16,0,0" Width="256" Header="Enter backend URL:" PlaceholderText="Backend Url" />
         <TextBox Text="{x:Bind ViewModel.Username, Mode=TwoWay}" Margin="0,16,0,0" Width="256" Header="Enter your username:" PlaceholderText="Username" />
         <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" Margin="0,16,0,0" Width="256" Header="Enter your password:" AutomationProperties.Name="Password"/>
         <CheckBox HorizontalAlignment="Center" IsChecked="{x:Bind ViewModel.RememberMe, Mode=TwoWay}" Content="Remember Me"></CheckBox>
         <Button Command="{x:Bind ViewModel.ClickLoginCommand}" Visibility="{x:Bind ViewModel.NotLoading, Mode=OneWay}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Style="{StaticResource AccentButtonStyle}" Content="Login" />
         <muxc:ProgressRing Margin="0,16,0,0" Visibility="{x:Bind ViewModel.Loading, Mode=OneWay}" IsActive="True" />
         <Button Command="{x:Bind ViewModel.NavigateToRegisterCommand}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Content="Register" />
+        <Button Command="{x:Bind ViewModel.ClickChangeBackendUrlCommand}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Content="Change Backend Url" />
     </StackPanel>
 </Page>

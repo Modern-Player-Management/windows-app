@@ -19,6 +19,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -103,7 +104,7 @@ namespace ModernPlayerManager.ViewModels
         private bool IsUserTeamManager() => Team?.IsCurrentUserManager ?? false;
 
         private bool DiscrepancyIsFromCurrentUser(Discrepancy discrepancy) =>
-            AuthenticatedHttpClientHandler.UserId == discrepancy.UserId;
+            AuthenticationManager.UserId == discrepancy.UserId;
 
         #region Commands
 
@@ -127,22 +128,16 @@ namespace ModernPlayerManager.ViewModels
 
         #region Webservices
 
-        public ITeamApi TeamApi = RestService.For<ITeamApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public ITeamApi TeamApi = RestService.For<ITeamApi>(MpmHttpClient.Instance);
 
 
-        public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public IFileApi FileApi = RestService.For<IFileApi>(MpmHttpClient.Instance);
 
-        public IDiscrepancyApi DiscrepancyApi = RestService.For<IDiscrepancyApi>(
-            new HttpClient(new AuthenticatedHttpClientHandler())
-                {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public IDiscrepancyApi DiscrepancyApi = RestService.For<IDiscrepancyApi>(MpmHttpClient.Instance);
 
-        public IEventApi EventApi = RestService.For<IEventApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+        public IEventApi EventApi = RestService.For<IEventApi>(MpmHttpClient.Instance);
 
-        public IGameApi GameApi = RestService.For<IGameApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public IGameApi GameApi = RestService.For<IGameApi>(MpmHttpClient.Instance);
 
 
 
@@ -226,14 +221,14 @@ namespace ModernPlayerManager.ViewModels
 
         private async Task EditPresence(Event evt)
         {
-            evt.Participations.First(p => p.UserId == AuthenticatedHttpClientHandler.UserId).Confirmed =
+            evt.Participations.First(p => p.UserId == AuthenticationManager.UserId).Confirmed =
                 evt.CurrentHasConfirmed;
             try
             {
                 await EventApi.UpdatePresence(evt.Id,
                     new EventPresenceDTO()
                     {
-                        Present = evt.Participations.First(p => p.UserId == AuthenticatedHttpClientHandler.UserId).Confirmed
+                        Present = evt.Participations.First(p => p.UserId == AuthenticationManager.UserId).Confirmed
                     });
             }
             catch (Exception e)

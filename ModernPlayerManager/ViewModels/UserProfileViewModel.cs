@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using ModernPlayerManager.Dialogs;
 using ModernPlayerManager.Models;
 using ModernPlayerManager.Pages;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -45,11 +46,9 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        public IFileApi FileApi = RestService.For<IFileApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public IFileApi FileApi = RestService.For<IFileApi>(MpmHttpClient.Instance);
 
-        public IUserApi UserApi = RestService.For<IUserApi>(new HttpClient(new AuthenticatedHttpClientHandler())
-            { BaseAddress = new Uri("https://api-mpm.herokuapp.com") });
+        public IUserApi UserApi = RestService.For<IUserApi>(MpmHttpClient.Instance);
 
         public UserProfileViewModel() {
             FetchUserProfile();
@@ -93,7 +92,7 @@ namespace ModernPlayerManager.ViewModels
 
         public async void CopyICalLink() {
             var dataPackage = new DataPackage {RequestedOperation = DataPackageOperation.Copy};
-            dataPackage.SetText($"https://api-mpm.herokuapp.com/api/Events/ical/{UserProfile.CalendarSecret}");
+            dataPackage.SetText($"{MpmHttpClient.Instance.BaseAddress}/api/Events/ical/{UserProfile.CalendarSecret}");
             Clipboard.SetContent(dataPackage);
 
             var dialog = new ContentDialog()

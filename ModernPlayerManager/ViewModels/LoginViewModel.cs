@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ModernPlayerManager.Pages;
+using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
 using ModernPlayerManager.Services.DTO;
 using ModernPlayerManager.ViewModels.Commands;
@@ -32,29 +34,58 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
-        private string _password;
+        private string password;
 
         public string Password
         {
-            get => _password;
+            get => password;
             set
             {
-                _password = value;
+                password = value;
                 ClickLoginCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public RelayCommand ClickLoginCommand { get; set; }
-        public RelayCommand NavigateToRegisterCommand { get; set; }
+        public RelayCommand ClickLoginCommand { get; }
+        public RelayCommand NavigateToRegisterCommand { get; }
+        public RelayCommand ClickChangeBackendUrlCommand { get; }
 
         public LoginViewModel() {
             ClickLoginCommand = new RelayCommand(Login, CanLogin);
-            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister, () => true);
+            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister);
+            ClickChangeBackendUrlCommand = new RelayCommand(ClickChangeBackendUrl);
             CheckStoredCredentials();
         }
 
+        private string backendUrl;
+
+        public string BackendUrl
+        {
+            get => backendUrl;
+            set
+            {
+                backendUrl = value;
+                ClickLoginCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private bool changeBackendUrl = false;
+
+        private bool ChangeBackendUrl
+        {
+            get => changeBackendUrl;
+            set
+            {
+                changeBackendUrl = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AskBackendUrl));
+            }
+        }
+
+        public bool AskBackendUrl => ApplicationData.Current.LocalSettings.Values["backend_url"] == null || ChangeBackendUrl;
+
         public bool RememberMe { get; set; }
-        public bool CanLogin() => Username?.Length > 0 && Password?.Length > 0;
+        public bool CanLogin() => (Username?.Length > 0 && Password?.Length > 0) && (AskBackendUrl || BackendUrl?.Length > 0);
 
         public bool Loading
         {
@@ -96,15 +127,16 @@ namespace ModernPlayerManager.ViewModels
 
         public async void Login() {
             Loading = true;
-            var api = RestService.For<ILoginApi>(new HttpClient()
-                {BaseAddress = new Uri("https://api-mpm.herokuapp.com")});
+            UpdateBackendUrl();
+
+            var api = RestService.For<ILoginApi>(MpmHttpClient.Instance);
 
             var dto = new LoginDTO() {Username = this.Username, Password = this.Password};
 
             try {
                 var loggedUser = await api.Login(dto);
-                AuthenticatedHttpClientHandler.Token = loggedUser.Token;
-                AuthenticatedHttpClientHandler.UserId = loggedUser.Id;
+                AuthenticationManager.Token = loggedUser.Token;
+                AuthenticationManager.UserId = loggedUser.Id;
 
                 if (RememberMe)
                 {
@@ -127,7 +159,19 @@ namespace ModernPlayerManager.ViewModels
             }
         }
 
+        private void UpdateBackendUrl() {
+            if (AskBackendUrl) {
+                ApplicationData.Current.LocalSettings.Values["backend_url"] = BackendUrl;
+                MpmHttpClient.Instance.BaseAddress = new Uri(BackendUrl);
+            }
+        }
+
+        public void ClickChangeBackendUrl() {
+            this.ChangeBackendUrl = true;
+        }
+
         public void NavigateToRegister() {
+            UpdateBackendUrl();
             (Window.Current.Content as Frame)?.Navigate(typeof(RegisterPage));
         }
     }
