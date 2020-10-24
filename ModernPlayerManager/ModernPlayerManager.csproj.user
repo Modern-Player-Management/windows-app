@@ -5,6 +5,18 @@
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
   <PropertyGroup>
-    <AppIconSource>C:\Users\arsen\git\windows-app\ModernPlayerManager\Assets\Square44x44Logo.scale-200.png</AppIconSource>
+    <AppIconSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\appicon.png</AppIconSource>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>True</PackageOptionalProjectsInIdeBuilds>
+    <PackageLogoSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</PackageLogoSource>
+    <BadgeLogoSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</BadgeLogoSource>
+    <SplashScreenSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</SplashScreenSource>
+    <LargeTileSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</LargeTileSource>
+    <WideTileSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</WideTileSource>
+    <MediumTileSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</MediumTileSource>
+    <SmallTileSource>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\logo.png</SmallTileSource>
+    <Source>C:\Users\arsen\git\ModernPlayerManager\ModernPlayerManager\Assets\appicon.png</Source>
   </PropertyGroup>
 </Project>
