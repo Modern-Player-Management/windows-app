@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="ModernPlayerManager.Pages.BackendUrl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernPlayerManager.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <TextBox Text="{x:Bind ViewModel.BackendUrl, Mode=TwoWay}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Header="Enter the Backend Url:" PlaceholderText="Backend Url" />
+        <Button Command="{x:Bind ViewModel.ValidateCommand}" Margin="0,16,0,0" HorizontalAlignment="Center" Width="256" Style="{StaticResource AccentButtonStyle}" Content="Validate" />
+    </StackPanel>
+</Page>

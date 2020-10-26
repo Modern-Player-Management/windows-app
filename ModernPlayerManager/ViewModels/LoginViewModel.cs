@@ -47,45 +47,18 @@ namespace ModernPlayerManager.ViewModels
         }
 
         public RelayCommand ClickLoginCommand { get; }
-        public RelayCommand NavigateToRegisterCommand { get; }
-        public RelayCommand ClickChangeBackendUrlCommand { get; }
+        public AsyncCommand NavigateToRegisterCommand { get; }
 
         public LoginViewModel() {
             ClickLoginCommand = new RelayCommand(Login, CanLogin);
-            NavigateToRegisterCommand = new RelayCommand(NavigateToRegister);
-            ClickChangeBackendUrlCommand = new RelayCommand(ClickChangeBackendUrl);
+            NavigateToRegisterCommand = new AsyncCommand(NavigateToRegister);
             CheckStoredCredentials();
         }
 
-        private string backendUrl;
-
-        public string BackendUrl
-        {
-            get => backendUrl;
-            set
-            {
-                backendUrl = value;
-                ClickLoginCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        private bool changeBackendUrl = false;
-
-        private bool ChangeBackendUrl
-        {
-            get => changeBackendUrl;
-            set
-            {
-                changeBackendUrl = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(AskBackendUrl));
-            }
-        }
-
-        public bool AskBackendUrl => ApplicationData.Current.LocalSettings.Values["backend_url"] == null || ChangeBackendUrl;
-
         public bool RememberMe { get; set; }
-        public bool CanLogin() => (Username?.Length > 0 && Password?.Length > 0) && (AskBackendUrl || BackendUrl?.Length > 0);
+
+        public bool CanLogin() => (Username?.Length > 0 && Password?.Length > 0);
+           
 
         public bool Loading
         {
@@ -100,15 +73,12 @@ namespace ModernPlayerManager.ViewModels
 
         public bool NotLoading => !loading;
 
-        public void CheckStoredCredentials()
-        {
-            try
-            {
+        public void CheckStoredCredentials() {
+            try {
                 var vault = new Windows.Security.Credentials.PasswordVault();
                 var credentialList = vault.FindAllByResource("Modern Player Manager");
 
-                if (credentialList.Count == 0)
-                {
+                if (credentialList.Count == 0) {
                     return;
                 }
 
@@ -119,15 +89,12 @@ namespace ModernPlayerManager.ViewModels
 
                 Login();
             }
-            catch (Exception e)
-            {
-
+            catch (Exception e) {
             }
         }
 
         public async void Login() {
             Loading = true;
-            UpdateBackendUrl();
 
             var api = RestService.For<ILoginApi>(MpmHttpClient.Instance);
 
@@ -138,8 +105,7 @@ namespace ModernPlayerManager.ViewModels
                 AuthenticationManager.Token = loggedUser.Token;
                 AuthenticationManager.UserId = loggedUser.Id;
 
-                if (RememberMe)
-                {
+                if (RememberMe) {
                     var vault = new Windows.Security.Credentials.PasswordVault();
                     vault.Add(new Windows.Security.Credentials.PasswordCredential(
                         "Modern Player Manager", Username, Password));
@@ -149,29 +115,17 @@ namespace ModernPlayerManager.ViewModels
             }
             catch (Exception e) {
                 Loading = false;
-                ContentDialog dialog = new ContentDialog
+                var dialog = new ContentDialog
                 {
                     Title = "Login Error",
                     Content = e.Message,
                     CloseButtonText = "Ok"
                 };
-                ContentDialogResult result = await dialog.ShowAsync();
+                await dialog.ShowAsync();
             }
         }
 
-        private void UpdateBackendUrl() {
-            if (AskBackendUrl) {
-                ApplicationData.Current.LocalSettings.Values["backend_url"] = BackendUrl;
-                MpmHttpClient.Instance.BaseAddress = new Uri(BackendUrl);
-            }
-        }
-
-        public void ClickChangeBackendUrl() {
-            this.ChangeBackendUrl = true;
-        }
-
-        public void NavigateToRegister() {
-            UpdateBackendUrl();
+        public async Task NavigateToRegister() {
             (Window.Current.Content as Frame)?.Navigate(typeof(RegisterPage));
         }
     }

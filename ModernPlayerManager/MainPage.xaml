@@ -29,7 +29,7 @@
             <muxc:NavigationViewItem>
                 <StackPanel>
                 <TextBlock Text="Modern Player Manager" HorizontalAlignment="Center"></TextBlock>
-                    <Image Source="/Assets/logo.png"
+                    <Image Source="/Assets/logoui.png"
                            HorizontalAlignment="Center" Height="150" Width="150"></Image>
                 </StackPanel>
             </muxc:NavigationViewItem>

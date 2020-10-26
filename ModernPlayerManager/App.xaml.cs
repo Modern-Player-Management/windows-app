@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -63,12 +64,14 @@ namespace ModernPlayerManager
 
             if (e.PrelaunchActivated == false)
             {
-                if (rootFrame.Content == null)
-                {
+                if (rootFrame.Content == null) {
                     // Quand la pile de navigation n'est pas restaurée, accédez à la première page,
                     // puis configurez la nouvelle page en transmettant les informations requises en tant que
                     // paramètre
-                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                    rootFrame.Navigate(
+                        ApplicationData.Current.LocalSettings.Values["backend_url"] == null
+                            ? typeof(BackendUrl)
+                            : typeof(LoginPage), e.Arguments);
                 }
                 // Vérifiez que la fenêtre actuelle est active
                 Window.Current.Activate();
