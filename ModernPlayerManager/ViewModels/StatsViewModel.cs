@@ -10,8 +10,10 @@ using Windows.UI.Xaml;
 using Microcharts;
 using Microcharts.Uwp;
 using ModernPlayerManager.Models;
+using ModernPlayerManager.Pages;
 using ModernPlayerManager.Services;
 using ModernPlayerManager.Services.API;
+using ModernPlayerManager.ViewModels.Commands;
 using Refit;
 using SkiaSharp;
 
@@ -19,6 +21,7 @@ namespace ModernPlayerManager.ViewModels
 {
     public class StatsViewModel : NotificationBase
     {
+        public MainViewModel MainViewModel { get; set; } = ViewModelsLocator.Instance.MainViewModel;
         private List<PlayersStat> playersStats;
 
         public string PlayerName1 => this.playersStats?[0].Player ?? "";
@@ -27,7 +30,7 @@ namespace ModernPlayerManager.ViewModels
 
         private async void GetStats()
         {
-
+    
             var values = await this.TeamApi.GetStats(this.teamId);
             playersStats = values;
             OnPropertyChanged(nameof(PlayerName1));
@@ -94,6 +97,7 @@ namespace ModernPlayerManager.ViewModels
         private readonly ChartView player1ChartView;
         private readonly ChartView player2ChartView;
         private readonly ChartView player3ChartView;
+        public RelayCommand CloseCommand;
 
         public StatsViewModel(string teamId, ChartView scoreChartView, ChartView shootingChartView,
             ChartView player1ChartView, ChartView player2ChartView, ChartView player3ChartView)
@@ -104,8 +108,13 @@ namespace ModernPlayerManager.ViewModels
             this.player1ChartView = player1ChartView;
             this.player2ChartView = player2ChartView;
             this.player3ChartView = player3ChartView;
+            CloseCommand = new RelayCommand(Close);
 
             GetStats();
+        }
+
+        private void Close() {
+            MainViewModel.ContentFrame.Navigate(typeof(TeamPage), teamId);
         }
     }
 }

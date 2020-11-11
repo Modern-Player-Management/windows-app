@@ -9,7 +9,7 @@
   <Identity
     Name="962ed02e-89eb-46d4-add6-1d61f85de1fe"
     Publisher="CN=Arsène Lapostolet"
-    Version="1.0.8.0" />
+    Version="1.0.9.0" />
 
   <mp:PhoneIdentity PhoneProductId="962ed02e-89eb-46d4-add6-1d61f85de1fe" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

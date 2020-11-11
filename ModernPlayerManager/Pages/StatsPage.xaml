@@ -19,15 +19,22 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"  />
             <RowDefinition />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*"  />
+            <RowDefinition  Height="10*"/>
+            <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" x:Name="Player1ChartView"></uwp:ChartView>
-        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="2" x:Name="Player2ChartView"></uwp:ChartView>
-        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="4" x:Name="Player3ChartView"></uwp:ChartView>
+        <StackPanel Grid.Column="5">
+            <Button HorizontalAlignment="Right" Command="{x:Bind ViewModel.CloseCommand}">
+                <FontIcon Glyph="&#xE8BB;" />
+            </Button>
+        </StackPanel>
+
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" x:Name="Player1ChartView"></uwp:ChartView>
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2" x:Name="Player2ChartView"></uwp:ChartView>
+        <uwp:ChartView Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="4" x:Name="Player3ChartView"></uwp:ChartView>
 
         <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" Text="{x:Bind ViewModel.PlayerName1, Mode=OneWay}" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="2" Text="{x:Bind ViewModel.PlayerName2, Mode=OneWay}" TextAlignment="Center"></TextBlock>
